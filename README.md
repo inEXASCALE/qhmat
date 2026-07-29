@@ -20,7 +20,7 @@ Set the input parameters as follows in the [main_file.m](Hmat/main_file.m)
 ```
 d_dim = 3;
 d_dimRootN = [20];
-nParticlesInLeafAlong1D = 8;
+nParticlesInLeafAlong1D = 4;
 LR_epsilon = [1e-2];
 kernel_choice = 2;
 hodlr_level = 1;
