@@ -1,5 +1,7 @@
 # qhmat
 
+Quantized H-matrix MATLAB code. The H-matrix is constructed based on a $2^d$-tree and the low-rank factors are stored in integer format (quantized per channel is used. See [gemm_AB.m](Hmat/gemm_AB.m)). The results can be found in [result_QuantH](Hmat/Results/result_QuantH))
+
 ## Description of the parameters in the [main_file.m](Hmat/main_file.m)
 1) d_dim = The dimension of the space. The balanced 2^d_dim-tree will be generated accordingly. For example, if d_dim=3, the resulting tree will be an oct-tree.
 1) nParticlesInLeafAlong1D = The maximum number of particles along 1D at the leaf level. The maximum number of particles at the leaf level N_max = nParticlesInLeafAlong1D^d_dim (this decides the depth of the tree $L$).  
