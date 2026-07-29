@@ -1,0 +1,132 @@
+
+~~~~~~~*************** AMP HMAT ****************~~~~~~~
+Number of particles: 8000
+  
+Parameters:
+HODLR level-> 0	  LR Tol.-> 1.000000e-04	  Dim-> 3	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 8.660254e-01
+Particle location-> uniform
+=============================
+Relative error in MVP:     5.165185345270500e-07
+
+=============================
+Level of the tree: 3
+=============================
+Low-rank Storage in quantized form (GB): 2.870190e-02
+=============================
+Dense matrices Storage (GB): 1.124864e-03
+=============================
+Total storage of quantized H-matrix (GB): 2.982676e-02
+=============================
+Storage gain (with fp64): 3.630945e+00
+=============================
+Relative error (in Frob norm) in Matrix re-construction (without Quantization):
+     4.066627093985400e-05
+
+Relative error (in Frob norm) in Matrix re-construction (with Quantization):
+     4.074254594358424e-05
+
+
+=============================
+Relative backward error in MVP:
+     2.384485335266822e-07
+
+*************** == END OF RESULT == ****************
+
+~~~~~~~*************** AMP HMAT ****************~~~~~~~
+Number of particles: 8000
+  
+Parameters:
+HODLR level-> 0	  LR Tol.-> 1.000000e-03	  Dim-> 3	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 8.660254e-01
+Particle location-> uniform
+=============================
+Relative error in MVP:     4.280410090369277e-06
+
+=============================
+Level of the tree: 3
+=============================
+Low-rank Storage in quantized form (GB): 1.512151e-02
+=============================
+Dense matrices Storage (GB): 1.124864e-03
+=============================
+Total storage of quantized H-matrix (GB): 1.624637e-02
+=============================
+Storage gain (with fp64): 4.422825e+00
+=============================
+Relative error (in Frob norm) in Matrix re-construction (without Quantization):
+     3.374069925418323e-04
+
+Relative error (in Frob norm) in Matrix re-construction (with Quantization):
+     3.390672411742352e-04
+
+
+=============================
+Relative backward error in MVP:
+     1.976032689467633e-06
+
+*************** == END OF RESULT == ****************
+
+~~~~~~~*************** AMP HMAT ****************~~~~~~~
+Number of particles: 8000
+  
+Parameters:
+HODLR level-> 0	  LR Tol.-> 1.000000e-02	  Dim-> 3	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 8.660254e-01
+Particle location-> uniform
+=============================
+Relative error in MVP:     3.944723133042615e-05
+
+=============================
+Level of the tree: 3
+=============================
+Low-rank Storage in quantized form (GB): 8.587279e-03
+=============================
+Dense matrices Storage (GB): 1.124864e-03
+=============================
+Total storage of quantized H-matrix (GB): 9.712143e-03
+=============================
+Storage gain (with fp64): 5.706222e+00
+=============================
+Relative error (in Frob norm) in Matrix re-construction (without Quantization):
+   0.003095574749407
+
+Relative error (in Frob norm) in Matrix re-construction (with Quantization):
+   0.003108394091732
+
+
+=============================
+Relative backward error in MVP:
+     1.821064266559308e-05
+
+*************** == END OF RESULT == ****************
+
+~~~~~~~*************** AMP HMAT ****************~~~~~~~
+Number of particles: 8000
+  
+Parameters:
+HODLR level-> 0	  LR Tol.-> 1.000000e-01	  Dim-> 3	  Min particle at leaf-> 64	  Kernel choice-> 2	  isNBDcompressed-> 1	  isSymmetric-> 1	  eta-> 8.660254e-01
+Particle location-> uniform
+=============================
+Relative error in MVP:     3.581647911096456e-04
+
+=============================
+Level of the tree: 3
+=============================
+Low-rank Storage in quantized form (GB): 2.823103e-03
+=============================
+Dense matrices Storage (GB): 1.124864e-03
+=============================
+Total storage of quantized H-matrix (GB): 3.947967e-03
+=============================
+Storage gain (with fp64): 7.241949e+00
+=============================
+Relative error (in Frob norm) in Matrix re-construction (without Quantization):
+   0.025250820576038
+
+Relative error (in Frob norm) in Matrix re-construction (with Quantization):
+   0.025460607976892
+
+
+=============================
+Relative backward error in MVP:
+     1.653452170485720e-04
+
+*************** == END OF RESULT == ****************

@@ -1,0 +1,46 @@
+clear
+close all
+clc
+
+addpath('/Users/riteshkhan/Documents/quantH/QUANT_GEMM');
+addpath('/Users/riteshkhan/Documents/quantH/Hmat');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+d_dim = 2;
+
+d_dimRootN = [80];
+
+nParticlesInLeafAlong1D = 5;
+
+LR_epsilon = [1e-3];
+%LR_epsilon = [1e-6 1e-5 1e-4 1e-3 1e-2 1e-1];
+
+kernel_choice = 3;
+
+hodlr_level = 0;
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+eta = sqrt(d_dim)/2.0;   % eta=1.0 --> HODLRdD (weak), sqrt(d_dim)/2.0 (strong) --> H, 2 HODLR  
+particle_location_choice = "uniform"; % uniform, random && 2D: circle, star 3D: sphere, polyhedron. Modifiy in createHmat.m
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+isNBDcompressed = false; % if this flag is flase and hodlr_level = 0 it generates normal H mat.
+
+if(hodlr_level>0)
+    isNBDcompressed = true;
+end
+
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+is_sym = false;  % The matrix is symmetric or not
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+rng(1,'twister');
+
+for i = 1:numel(d_dimRootN)
+    for j = 1:numel(LR_epsilon)
+        createHmat(d_dim, eta, d_dimRootN(i), hodlr_level, nParticlesInLeafAlong1D, LR_epsilon(j), kernel_choice, particle_location_choice, is_sym, isNBDcompressed);
+    end
+end
