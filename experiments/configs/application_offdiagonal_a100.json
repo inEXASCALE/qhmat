@@ -1,0 +1,7 @@
+{
+  "extends": "application_a100.json",
+  "source_config": "experiments/configs/offdiagonal_a100.json",
+  "data_dir": "experiments/data_application_offdiagonal_a100",
+  "results_dir": "experiments/results_application_offdiagonal_a100",
+  "figures_dir": "experiments/figures_application_offdiagonal_a100"
+}

@@ -1,0 +1,611 @@
+{
+  "config": {
+    "boundary_ratios": [
+      0.98,
+      0.999,
+      0.99999999,
+      1.0,
+      1.00000001,
+      1.001,
+      1.02
+    ],
+    "boundary_scale_exponents": [
+      -40,
+      0,
+      40
+    ],
+    "data_dir": "experiments/data_allocator_study",
+    "figures_dir": "experiments/figures_allocator_study",
+    "m": 200,
+    "menus": {
+      "B0": [
+        4,
+        8,
+        12,
+        16
+      ],
+      "B1": [
+        4,
+        6,
+        8,
+        10,
+        12,
+        16
+      ],
+      "B2": [
+        4,
+        6,
+        8,
+        10,
+        12,
+        16,
+        24,
+        32
+      ],
+      "B3": [
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        16,
+        24,
+        32
+      ]
+    },
+    "n": 180,
+    "plot_style": {
+      "axis_label_size": 10,
+      "figure_dpi": 200,
+      "formats": [
+        "pdf",
+        "png"
+      ],
+      "grid_alpha": 0.2,
+      "legend_font_size": 9,
+      "legend_gap_points": 12,
+      "legend_max_columns": 4,
+      "line_width": 1.5,
+      "marker_size": 4.0,
+      "tick_label_size": 9,
+      "title_font_size": 10
+    },
+    "rank": 25,
+    "results_dir": "experiments/results_allocator_study",
+    "scaling_exponents": [
+      -100,
+      -50,
+      0,
+      50,
+      100
+    ],
+    "seeds": [
+      1,
+      7,
+      42,
+      123,
+      202,
+      303,
+      404,
+      505,
+      606,
+      707
+    ],
+    "spectra": {
+      "algebraic": {
+        "kind": "algebraic",
+        "parameter": 1.4
+      },
+      "exp055": {
+        "kind": "exponential",
+        "parameter": 0.55
+      },
+      "exp075": {
+        "kind": "exponential",
+        "parameter": 0.75
+      },
+      "exp090": {
+        "kind": "exponential",
+        "parameter": 0.9
+      },
+      "flat": {
+        "kind": "flat",
+        "parameter": 0.0
+      }
+    },
+    "tolerances": [
+      1e-05,
+      3e-05,
+      0.0001,
+      0.0003,
+      0.001,
+      0.003,
+      0.01,
+      0.03,
+      0.1
+    ]
+  },
+  "git_revision": "ce81600f00b8a5acb7be4df45f02496ea59d615a",
+  "manifest": {
+    "cases": [
+      {
+        "case_id": "exp055_seed1",
+        "filename": "exp055_seed1.npz",
+        "seed": 1,
+        "sha256": "e965b12ee5ef2163fee054d5fa1ef586291655bf040aabf2d4218da53747dea1",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed7",
+        "filename": "exp055_seed7.npz",
+        "seed": 7,
+        "sha256": "4e86a8d71c31af04a2357880acf35bf506107fc33c57db6a90be84b49eabcb02",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed42",
+        "filename": "exp055_seed42.npz",
+        "seed": 42,
+        "sha256": "da30c3394d1defae9afb2d1e2deb6828e25fee0ab492570fd74980d09bacac96",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed123",
+        "filename": "exp055_seed123.npz",
+        "seed": 123,
+        "sha256": "5f9bc64328d0d78d3df537115406e877e5bb439b8568741606f5ef28f2dc3605",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed202",
+        "filename": "exp055_seed202.npz",
+        "seed": 202,
+        "sha256": "336b9394f9e7d7bdefbb19d4a737444a295ab147361e8840e593f3488234e5a6",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed303",
+        "filename": "exp055_seed303.npz",
+        "seed": 303,
+        "sha256": "bb06b6c58e602ddf233d723cf4d233ae4fef8ef615a117652e1b75c251923390",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed404",
+        "filename": "exp055_seed404.npz",
+        "seed": 404,
+        "sha256": "aa7c8b82bb8c7a5c8d438b37e43f9974affa2acc68a0ff7b4afa05308386ef95",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed505",
+        "filename": "exp055_seed505.npz",
+        "seed": 505,
+        "sha256": "77b10088c24f17b81b0994307ac5bd08b8fdc0ed654e8e69f32cdcb102008d7d",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed606",
+        "filename": "exp055_seed606.npz",
+        "seed": 606,
+        "sha256": "3dededa2893c83cc08e3c9bb84f32d8490404345dfcc7cd43db2a51c85ebab1a",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp055_seed707",
+        "filename": "exp055_seed707.npz",
+        "seed": 707,
+        "sha256": "075e8125d0e1b5e37540374fb052d19d16bd9be8bb1d98dad1b244c5bd12433c",
+        "spectrum": "exp055"
+      },
+      {
+        "case_id": "exp075_seed1",
+        "filename": "exp075_seed1.npz",
+        "seed": 1,
+        "sha256": "ecfbc16b02838f8007d1c40254c5db6d32c5db9d6d522af402c67961d42aee8c",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed7",
+        "filename": "exp075_seed7.npz",
+        "seed": 7,
+        "sha256": "f4d72524efbb41c43c42292e9f9047f24ef46c7c4cc040865b7813d30114de3b",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed42",
+        "filename": "exp075_seed42.npz",
+        "seed": 42,
+        "sha256": "ba3790f94b17f3f8dd967f2e8b0bccd1abe9ef9d4a4aa9be0648cc2e7383abf3",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed123",
+        "filename": "exp075_seed123.npz",
+        "seed": 123,
+        "sha256": "4356bd6f50515a34156023b65b9f1490496f201c6a97465d47b6f010b4e28073",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed202",
+        "filename": "exp075_seed202.npz",
+        "seed": 202,
+        "sha256": "abe388aea3a2ae89abbf88ec69970685f9c0876fe6658c36a24cbe518ca88a8d",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed303",
+        "filename": "exp075_seed303.npz",
+        "seed": 303,
+        "sha256": "e7dfcdeeb585826abbf682aaf19040525a473387c77e4be36378ad539fee7a2b",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed404",
+        "filename": "exp075_seed404.npz",
+        "seed": 404,
+        "sha256": "31ba5764515bedf2fdb6a12f89cfffb2f5b63a9c9b4fe2cda717db25a9253420",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed505",
+        "filename": "exp075_seed505.npz",
+        "seed": 505,
+        "sha256": "dde40c6f2d5cdedaaf6ee1de462d3a25f8dc96b7db2d952a3e054154e8a95add",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed606",
+        "filename": "exp075_seed606.npz",
+        "seed": 606,
+        "sha256": "b2e974a19464cb3e1bb37946457e4ea81cbe3222e94aa09f5040da04202d24d8",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp075_seed707",
+        "filename": "exp075_seed707.npz",
+        "seed": 707,
+        "sha256": "7985f3aed36cf9e3b11c2fa637fd4a3683bfdceba29dfc13b8f577b00411ba53",
+        "spectrum": "exp075"
+      },
+      {
+        "case_id": "exp090_seed1",
+        "filename": "exp090_seed1.npz",
+        "seed": 1,
+        "sha256": "933a6f4605641985b265e386aef5d8bc6b8415508c31e5fe8c5ab586086f3bb8",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed7",
+        "filename": "exp090_seed7.npz",
+        "seed": 7,
+        "sha256": "f7b5aa6b8cf7b0fb0d8c29f1c33bd3294a52101ebde206276a454e3d3ee226bf",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed42",
+        "filename": "exp090_seed42.npz",
+        "seed": 42,
+        "sha256": "adb0a5ba063c13b49d133ead2a55062724bca586fa0c950d2cde23d07ab1f3d6",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed123",
+        "filename": "exp090_seed123.npz",
+        "seed": 123,
+        "sha256": "ba8b48074f92fccc73ced3239e741818996fb82c6a846a8243890198f9720098",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed202",
+        "filename": "exp090_seed202.npz",
+        "seed": 202,
+        "sha256": "194b2afd8344f77a7e6241db4f22d6145e03fb3867b69e13ed6543f3dd6961ef",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed303",
+        "filename": "exp090_seed303.npz",
+        "seed": 303,
+        "sha256": "c39d391502ea0fe9351fd6d3a4f17368d87ad71b4c20bc903e8d68f69b76e720",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed404",
+        "filename": "exp090_seed404.npz",
+        "seed": 404,
+        "sha256": "6a24859244d8fd8bbb26c1b5d5bc4e9d211aafc86aded149d6d064d09f698dba",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed505",
+        "filename": "exp090_seed505.npz",
+        "seed": 505,
+        "sha256": "73256c7c768ca39568f78d9d2b8ac43f272f47789c8764f5c120bb498bfa68b6",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed606",
+        "filename": "exp090_seed606.npz",
+        "seed": 606,
+        "sha256": "5becce2e0b9bec29e5b8a2a91c8166d7bf7240daaa5244eebf3b805e09b57c01",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "exp090_seed707",
+        "filename": "exp090_seed707.npz",
+        "seed": 707,
+        "sha256": "10b3d636bb4c0bd9246dc9ef0c94a1f422c3ae694e2aa50ec87ff4c1d861b6b1",
+        "spectrum": "exp090"
+      },
+      {
+        "case_id": "algebraic_seed1",
+        "filename": "algebraic_seed1.npz",
+        "seed": 1,
+        "sha256": "121cab627999e1d1c3ec9c032d2d377487710130bd15b2f4365febb7d8468064",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed7",
+        "filename": "algebraic_seed7.npz",
+        "seed": 7,
+        "sha256": "dc5eb261fc290988b95496ce82ddd4f9702f34f62fe0ff5929504a7582eea9d3",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed42",
+        "filename": "algebraic_seed42.npz",
+        "seed": 42,
+        "sha256": "57069a854e50549961a0d747228d987c0d39990bd2cd7811ca077cb00062abc0",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed123",
+        "filename": "algebraic_seed123.npz",
+        "seed": 123,
+        "sha256": "57e0e8a0ae44e2f65293ae073fd248425c5586b5818fcbcde59836bc0900eeed",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed202",
+        "filename": "algebraic_seed202.npz",
+        "seed": 202,
+        "sha256": "f76a55d5b44d4925dcde042fc9d935ce5fd2da5c76c12e252675684c7327548c",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed303",
+        "filename": "algebraic_seed303.npz",
+        "seed": 303,
+        "sha256": "aa4586909868ad6bde0adc9669d504d43902a6480cb7d937ec3f4bec0fe19b46",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed404",
+        "filename": "algebraic_seed404.npz",
+        "seed": 404,
+        "sha256": "0011856d07f55e5fa09caba788495114af6f67bb0b3ff12b179c3730e151f04b",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed505",
+        "filename": "algebraic_seed505.npz",
+        "seed": 505,
+        "sha256": "1cf5defd3b9ca4473b998017d4e37f7ae2def339dc9d05589c06d2ba5a353e75",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed606",
+        "filename": "algebraic_seed606.npz",
+        "seed": 606,
+        "sha256": "a4b98676ab1c97f12c4d1fb0f7b532a59ef0d7bafeb3b20837c5ca68dc37e477",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "algebraic_seed707",
+        "filename": "algebraic_seed707.npz",
+        "seed": 707,
+        "sha256": "5e1db6fa3d7274ffc3829cd3f350ff3404e8caced1e32e923c43f7073a62c70a",
+        "spectrum": "algebraic"
+      },
+      {
+        "case_id": "flat_seed1",
+        "filename": "flat_seed1.npz",
+        "seed": 1,
+        "sha256": "0cabe0a93612c99403c69ba7479f4af66b5e7b45d3bb170a991c8e0dc192be21",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed7",
+        "filename": "flat_seed7.npz",
+        "seed": 7,
+        "sha256": "06a12af31acac1a2f28310a376a1a1c17e8e4b54be810509764123306e3160fe",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed42",
+        "filename": "flat_seed42.npz",
+        "seed": 42,
+        "sha256": "910406168b34cb394c8e4c7e5a33ef50c2e05ab669142a568d07a06ceb5d47ca",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed123",
+        "filename": "flat_seed123.npz",
+        "seed": 123,
+        "sha256": "692dea3add7353bf6cc130e061ac07db35f4c6e5a51d9c48b5561757fa8a63b8",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed202",
+        "filename": "flat_seed202.npz",
+        "seed": 202,
+        "sha256": "157fe99da99e5e473cbe6085823918a9ae73a0764c9ec954ee431ab1e4f1aee3",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed303",
+        "filename": "flat_seed303.npz",
+        "seed": 303,
+        "sha256": "d87e8482a69328fbc14d4b6dc4592a25b8437ca2bc55a1c73203c1be06bed119",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed404",
+        "filename": "flat_seed404.npz",
+        "seed": 404,
+        "sha256": "7d93403a1351124ed73665e65235589352eb0bacfc6b843d8e7bc548c23f8d60",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed505",
+        "filename": "flat_seed505.npz",
+        "seed": 505,
+        "sha256": "a7e00dc2f4bf471eb2753368b8fd1923baa19b788d6de7b5e8311f3328fdcceb",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed606",
+        "filename": "flat_seed606.npz",
+        "seed": 606,
+        "sha256": "026a25670f54b31c99ef32a63984d3c594fff4bf5c393763134d2a193ce4ffb7",
+        "spectrum": "flat"
+      },
+      {
+        "case_id": "flat_seed707",
+        "filename": "flat_seed707.npz",
+        "seed": 707,
+        "sha256": "11073660fd292b356a53ba9dcfc9812593ef78bf4bf739d77a3172e028e9725c",
+        "spectrum": "flat"
+      }
+    ],
+    "spec": {
+      "boundary_ratios": [
+        0.98,
+        0.999,
+        0.99999999,
+        1.0,
+        1.00000001,
+        1.001,
+        1.02
+      ],
+      "boundary_scale_exponents": [
+        -40,
+        0,
+        40
+      ],
+      "m": 200,
+      "menus": {
+        "B0": [
+          4,
+          8,
+          12,
+          16
+        ],
+        "B1": [
+          4,
+          6,
+          8,
+          10,
+          12,
+          16
+        ],
+        "B2": [
+          4,
+          6,
+          8,
+          10,
+          12,
+          16,
+          24,
+          32
+        ],
+        "B3": [
+          2,
+          4,
+          6,
+          8,
+          10,
+          12,
+          16,
+          24,
+          32
+        ]
+      },
+      "n": 180,
+      "rank": 25,
+      "scaling_exponents": [
+        -100,
+        -50,
+        0,
+        50,
+        100
+      ],
+      "seeds": [
+        1,
+        7,
+        42,
+        123,
+        202,
+        303,
+        404,
+        505,
+        606,
+        707
+      ],
+      "spectra": {
+        "algebraic": {
+          "kind": "algebraic",
+          "parameter": 1.4
+        },
+        "exp055": {
+          "kind": "exponential",
+          "parameter": 0.55
+        },
+        "exp075": {
+          "kind": "exponential",
+          "parameter": 0.75
+        },
+        "exp090": {
+          "kind": "exponential",
+          "parameter": 0.9
+        },
+        "flat": {
+          "kind": "flat",
+          "parameter": 0.0
+        }
+      },
+      "tolerances": [
+        1e-05,
+        3e-05,
+        0.0001,
+        0.0003,
+        0.001,
+        0.003,
+        0.01,
+        0.03,
+        0.1
+      ]
+    },
+    "spec_hash": "c283c7c042101f3713256ba9c61e186259c78329dd679d7ed539c30f9e8829b7"
+  },
+  "manifest_sha256": "6aa919b45a24ed7ca48fef15cc4ca823d639b088f44e326534eec82c621ed6b2",
+  "numpy": "2.4.6",
+  "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.43",
+  "python": "3.12.11",
+  "result_sha256": {
+    "feasibility_boundary.csv": "89aefa9f077679342b4b5fe91847eda96521215605137db9edccd573a6dc0f56",
+    "menu_results.csv": "c4ff3eb8f645972d84bf0a90f02726cd018fd46c7725a143ebb8d17daa07fe7e",
+    "paired_transitions.csv": "d439533b6d7efada249d350ae8aaaf5e62f4bc3cf096a68522223b6158d49bc9",
+    "reserve_trace.csv": "1f5e041a9d8317a382a227f999a9d4b7ab9ccaebb46b50a50a2d1d555a5c7af2",
+    "scaling.csv": "4043391cd9f00b7b65bdebe5f9db3e4038d3ff5d45247a57b086977cd4dc79cf"
+  },
+  "source_sha256": {
+    "experiments/prepare_allocator_study.py": "4507546ef5850899cf189e51ddb79697d339c8aae64bb05bac74a8f3ec476d4c",
+    "experiments/qmat_exp/allocator_study.py": "e3385738b50ddece337a5689d3d763f9f76e13ed733b414d5da30b81a089ea35",
+    "experiments/qmat_exp/quantization.py": "101716756749d11d1fde9d7549a1233168ddc8be6a3fa6bd45d7a4b71ad99ce9",
+    "experiments/run_allocator_study.py": "f6c66a282d4cba2201eecf6a639b5cabd27954c459f4d753ed0c9eca804e4526"
+  },
+  "spec_hash": "c283c7c042101f3713256ba9c61e186259c78329dd679d7ed539c30f9e8829b7"
+}

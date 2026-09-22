@@ -1,0 +1,39 @@
+{
+  "data_dir": "experiments/data_allocator_study",
+  "results_dir": "experiments/results_allocator_study",
+  "figures_dir": "experiments/figures_allocator_study",
+  "m": 200,
+  "n": 180,
+  "rank": 25,
+  "seeds": [1, 7, 42, 123, 202, 303, 404, 505, 606, 707],
+  "spectra": {
+    "exp055": {"kind": "exponential", "parameter": 0.55},
+    "exp075": {"kind": "exponential", "parameter": 0.75},
+    "exp090": {"kind": "exponential", "parameter": 0.90},
+    "algebraic": {"kind": "algebraic", "parameter": 1.4},
+    "flat": {"kind": "flat", "parameter": 0.0}
+  },
+  "tolerances": [0.00001, 0.00003, 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.03, 0.1],
+  "menus": {
+    "B0": [4, 8, 12, 16],
+    "B1": [4, 6, 8, 10, 12, 16],
+    "B2": [4, 6, 8, 10, 12, 16, 24, 32],
+    "B3": [2, 4, 6, 8, 10, 12, 16, 24, 32]
+  },
+  "boundary_ratios": [0.98, 0.999, 0.99999999, 1.0, 1.00000001, 1.001, 1.02],
+  "boundary_scale_exponents": [-40, 0, 40],
+  "scaling_exponents": [-100, -50, 0, 50, 100],
+  "plot_style": {
+    "axis_label_size": 10,
+    "tick_label_size": 9,
+    "legend_font_size": 9,
+    "legend_max_columns": 4,
+    "legend_gap_points": 12,
+    "title_font_size": 10,
+    "line_width": 1.5,
+    "marker_size": 4.0,
+    "figure_dpi": 200,
+    "formats": ["pdf", "png"],
+    "grid_alpha": 0.2
+  }
+}

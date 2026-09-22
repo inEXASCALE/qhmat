@@ -1,0 +1,19 @@
+{
+  "source_config": "experiments/configs/a100.json",
+  "data_dir": "experiments/data_application_a100",
+  "results_dir": "experiments/results_application_a100",
+  "figures_dir": "experiments/figures_application_a100",
+  "case_ids": [
+    "bem2d_log_circle_n1024", "bem2d_log_circle_n2048",
+    "bem2d_log_ellipse_n1024", "bem2d_log_ellipse_n2048",
+    "bem3d_inverse_cube_n1536", "bem3d_inverse_cuboid_n1536",
+    "kernel_inverse_distance_2d_uniform_n2048", "kernel_log_distance_2d_uniform_n2048",
+    "kernel_inverse_distance_3d_uniform_n2048", "kernel_log_distance_3d_uniform_n2048"
+  ],
+  "tolerances": [0.005, 0.01, 0.05],
+  "rhs_counts": [1, 8, 32, 128],
+  "warmup": 20,
+  "repeats": 100,
+  "trials": 5,
+  "seed": 17
+}

@@ -1,0 +1,16 @@
+{
+  "extends": "a100.json",
+  "data_dir": "experiments/data_offdiagonal_a100",
+  "results_dir": "experiments/results_offdiagonal_a100",
+  "figures_dir": "experiments/figures_offdiagonal_a100",
+  "tolerances": [1e-6, 1e-5, 1e-4, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1],
+  "hmatrix": {
+    "storage_policy": "diagonal_only",
+    "bit_set": [4, 8, 12, 16, 24, 32],
+    "rank_tol": 0.1,
+    "max_rank": 0,
+    "truncation_budget_fraction": 0.25,
+    "accumulator_unit_roundoff": 1.1102230246251565e-16
+  },
+  "gpu": {"enabled": false}
+}

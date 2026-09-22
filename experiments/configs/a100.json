@@ -1,0 +1,113 @@
+{
+  "seed": 7,
+  "data_dir": "experiments/data_a100",
+  "results_dir": "experiments/results_a100",
+  "figures_dir": "experiments/figures_a100",
+  "bit_set": [
+    4,
+    8,
+    12,
+    16
+  ],
+  "tolerances": [
+    0.002,
+    0.005,
+    0.01,
+    0.02,
+    0.05,
+    0.1
+  ],
+  "plot_style": {
+    "axis_label_size": 12,
+    "tick_label_size": 10,
+    "legend_font_size": 10,
+    "legend_max_columns": 4,
+    "legend_gap_points": 14,
+    "legend_side_padding_points": 12,
+    "legend_column_spacing": 1.4,
+    "legend_label_spacing": 0.6,
+    "title_font_size": 12,
+    "line_width": 2.0,
+    "marker_size": 6.0,
+    "figure_dpi": 200,
+    "formats": [
+      "pdf",
+      "png"
+    ],
+    "major_tick_length": 4.0,
+    "major_tick_width": 0.8,
+    "minor_tick_length": 2.0,
+    "minor_tick_width": 0.6,
+    "grid_alpha": 0.25
+  },
+  "low_rank": {
+    "sizes": [
+      256,
+      512
+    ],
+    "rank": 64,
+    "spectra": [
+      "exponential",
+      "algebraic",
+      "flat"
+    ],
+    "exponential_decay": 0.82,
+    "algebraic_power": 1.4
+  },
+  "hmatrix": {
+    "storage_policy": "admissible_only",
+    "leaf_size": 32,
+    "admissibility_eta": 1.0,
+    "rank_tol": 1e-06,
+    "max_rank": 64,
+    "kernels": [
+      "laplace1d",
+      "gaussian1d",
+      "matern1d"
+    ],
+    "budget_policy": "block_relative",
+    "hybrid_gamma": 0.001,
+    "gemm_reserve_fraction": 0.02,
+    "accumulator_unit_roundoff": 5.960464477539063e-08,
+    "sizes": [
+      512,
+      1024
+    ],
+    "budget_policies": [
+      "block_relative",
+      "hybrid",
+      "global_relative"
+    ]
+  },
+  "gpu": {
+    "native_shapes": [[128, 128], [512, 512], [4096, 4096]],
+    "native_modes": ["uniform4", "uniform8", "uniform12", "uniform16", "mixed", "adaptive"],
+    "native_budget_fraction": 0.002,
+    "enabled": true,
+    "m": 4096,
+    "n": 4096,
+    "ranks": [
+      32,
+      64,
+      128,
+      256
+    ],
+    "bits": [
+      4,
+      8
+    ],
+    "warmup": 20,
+    "repeats": 100
+  },
+  "geometric_suites": {
+    "leaf_size": 32,
+    "native_leaves_per_case": 2,
+    "point_kernels": {
+      "sizes": [512, 1024, 2048], "dimensions": [2, 3],
+      "distributions": ["uniform", "clustered"],
+      "kernels": ["inverse_distance", "log_distance"]
+    },
+    "bem2d": {"sizes": [256, 512, 1024, 2048], "geometries": ["circle", "ellipse"]},
+    "bem3d": {"subdivisions": [4, 8, 16], "geometries": ["cube", "cuboid"]}
+  }
+}
