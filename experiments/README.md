@@ -205,3 +205,190 @@ alongside relative error; the modes do not have matched accuracy by construction
 The benchmark requires sufficient memory for full-output FP64 validation and
 measures local reconstruction, not an entire H-matrix application.
 
+Host validation can also be built without a CUDA toolkit:
+
+```bash
+cmake -S experiments/cuda -B experiments/cuda/build-host -DQMAT_ENABLE_CUDA=OFF
+cmake --build experiments/cuda/build-host -j
+ctest --test-dir experiments/cuda/build-host --output-on-failure
+python -m unittest discover -s experiments/tests -v
+```
+
+See [AUDIT.md](AUDIT.md) for the claim-to-code map and remaining extensions.
+
+## Replot existing results
+
+Stage 3 is independent of data generation and benchmarking. On the node, with
+the experiment Python environment active, run only:
+
+```bash
+python experiments/plot_results.py --config experiments/configs/a100.json
+```
+
+The plotter reads existing CSVs without modifying measurements. Legends are
+deduplicated across panels and centered below the entire figure, underneath
+tick labels, offset text, and axis labels. Their measured width controls the
+number of columns; extra legend rows expand the saved canvas rather than
+reducing the data area. Both PNG and PDF use the same layout.
+
+All settings live in `plot_style` in the selected JSON config:
+`axis_label_size`, `tick_label_size`, `legend_font_size`, `title_font_size`,
+`legend_max_columns` (4), `legend_gap_points` (14),
+`legend_side_padding_points` (12), `legend_column_spacing` (1.4), and
+`legend_label_spacing` (0.6). Gap and side padding are in points; column and
+label spacing are in legend-font units. Increase the gap for more whitespace.
+
+The uploaded A100 results omit `hmatrix_leaves.csv`. Without it, the plotter
+warns and preserves existing precision-distribution and precision-vs-distance
+figures, instead of overwriting them with empty charts. Run stage 3 on the node
+where that CSV remains available to restyle those figures too. Undefined
+certificate/actual ratios for zero-error cases and empty distance bins are
+excluded from averages or left missing, never plotted as zero measurements.
+
+See [RESULTS_REVIEW.md](RESULTS_REVIEW.md) for the uploaded-run assessment,
+timing-scope caveats, and recommended next measurements.
+
+## Complete H-matrix application performance
+
+The new three-stage `prepare_application.py`, `run_application.py`, and
+`plot_application.py` workflow compares dense FP32, ordinary H-matrix, and
+adaptive-bit **Y = A X** on identical frozen leaf partitions and ranks. It uses
+multi-RHS batched GEMMs and matched fused packed/FP32 kernels; it does not
+reconstruct dense leaf matrices inside the timed application. See
+[APPLICATION_BENCHMARK.md](APPLICATION_BENCHMARK.md) for node commands, smoke
+tests, timing scopes, error checks, and interpretation. Application results use
+separate directories and do not replace the existing reconstruction results.
+
+## Selected manuscript figures
+
+The focused A100 figure set can be regenerated independently:
+
+```bash
+python experiments/plot_paper.py --config experiments/configs/a100.json
+```
+
+This reads the committed local, hierarchical, and native CSVs and writes
+`paper_allocator_comparison`, `paper_hmatrix_storage`, and
+`paper_native_scale_rank` in the configured figure formats. It does not rerun
+benchmarks, overwrite the full diagnostic figures, or require leaf records.
+It uses the same `plot_style` font and external-bottom-legend controls as
+`plot_results.py`. This selected view requires the A100 case/rank sweep;
+missing or duplicate measurements fail instead of silently changing the sample.
+
+Allocator payload is normalized by uniform16 *factor* payload, with infeasible
+assignments left missing. The native figure uses matching mode-run FP32
+denominators and a common logarithmic scale for small and large outputs; ranks
+remain explicit rather than being pooled into an error--latency frontier.
+The native scale/rank plot now belongs to `ex_supplement.tex`; the main paper
+retains three figure groups and two tables, including same-partition storage
+controls and the fixed-workload GPU comparison.
+
+Regenerate the focused supplementary figures from the same saved run with:
+
+```bash
+python experiments/plot_supplement.py --config experiments/configs/a100.json
+```
+
+To regenerate only `supp_allocator_n512.pdf` and `.png`, without touching
+other figures or rerunning any experiment:
+
+```bash
+python experiments/plot_supplement.py --config experiments/configs/a100.json --only allocator
+```
+
+Tolerance panels use the full configured range with 5% logarithmic padding
+on both sides so boundary markers remain visible even when only the largest
+tolerances are feasible. Tick values and missing/infeasible data are unchanged.
+
+This writes the `supp_*` local-certificate, allocator, precision-map, 1D-kernel,
+and real-leaf GPU figures, and refreshes `paper_native_scale_rank`. The real-leaf
+plots require the same 68 inputs in all six modes. Boxplot spreads represent
+different workloads, not timing confidence intervals. All styles use the same
+`plot_style` configuration. No benchmark or measurement file is changed.
+
+The manuscript numbers use the frozen archive at commit `d6164dc`, which adds
+same-partition controls and updates the native timings. Earlier assessment
+documents refer to their explicitly named historical commits. Test the current
+tables, figure inputs, and cross-document references with:
+
+```bash
+python -m unittest discover -s experiments/tests -v
+```
+
+Compile with the repository's `latexmkrc`, which automatically builds the peer
+document's labels. See [BUILDING.md](../BUILDING.md) for local and Overleaf
+instructions and the clean/incremental cross-reference test.
+
+## Same-partition floating-factor storage controls
+
+The restored A100 archive and new CPU runs record `stored_dense_bits`, `retained_factor_entries`,
+`same_partition_fp32_bits`, and `same_partition_fp64_bits` in
+`hmatrix_certificate.csv`. For the realized compressed leaves, let
+`S = sum((m_k+n_k)*r_k)`; let `D` be the FP64 cost of dense and fallback leaves.
+The controls are `D+32*S` and `D+64*S`. Singular values are absorbed into the
+floating factors, so these controls have no quantization scales or precision
+maps. Tree topology, allocation overhead, and execution workspace are excluded
+from both sides. These are storage-only controls, not new FP32 accuracy tests
+or independently optimized H-matrix baselines.
+
+On the node retaining the **same run's** complete `hmatrix_leaves.csv`, recover
+the controls without rerunning data generation, CPU experiments, or CUDA:
+
+```bash
+python experiments/summarize_storage.py --config experiments/configs/a100.json
+```
+
+The command validates leaf totals, payload/metadata costs, and fallback counts
+against every archived summary row before writing the separate
+`hmatrix_storage_baselines.csv`. It leaves existing results untouched and
+rejects missing, duplicated, or mismatched records. The current archive already
+contains the controls in `hmatrix_certificate.csv`, so this recovery step is
+optional and is not needed to reproduce the manuscript's main table. The full
+leaf CSV remains untracked. Do not infer controls from unweighted mean bit
+widths or substitute leaf records from a different run.
+
+## Independent precision-menu and reserve study
+
+This CPU-only study supplements the theory and emulation results. It does not
+read or overwrite `data_a100`, `results_a100`, `figures_a100`, or the application
+benchmark directories. Run the three stages separately from the repository root:
+
+```bash
+python experiments/prepare_allocator_study.py --config experiments/configs/allocator_study.json
+python experiments/run_allocator_study.py --config experiments/configs/allocator_study.json
+python experiments/plot_allocator_study.py --config experiments/configs/allocator_study.json
+```
+
+The default configuration generates 50 low-rank factor triples (200 by 180,
+rank 25; five spectra and ten seeds), then evaluates nine tolerances and four
+nested precision menus. Greedy, ordered DP, and uniform allocation use the same
+matrix and singular-value certificate budget. Reported payloads exclude scales
+and metadata; additional bit widths are emulated, not native GPU formats.
+
+Stage 1 writes ignored NPZ inputs and a hashed manifest under
+`experiments/data_allocator_study`. Stage 2 verifies those inputs and writes
+`experiments/results_allocator_study`: menu measurements, paired transitions,
+reserve traces, exact-rational scalar-boundary comparisons, reciprocal-scaling
+controls, summary statistics, and provenance. The provenance records source and
+input hashes, software versions, the checkout revision, and result CSV hashes;
+source hashes also identify edits not yet committed at run time. The reciprocal
+scaling control fixes the bit map and compares independent column scales with
+shared channel scales. Floating-point threshold cases are explicitly flagged,
+not treated as interval-certified decisions.
+
+Stage 3 reads only the archived results and writes four PDF/PNG figures under
+`experiments/figures_allocator_study`. The checked-in results suffice to rerun
+this stage without regenerating data or running the experiments. Edit the shared
+`plot_style` keys in the configuration to change axis-label, tick-label, legend,
+and title font sizes. Legends remain outside the axes below the x labels.
+Changing only plotting style does not invalidate the experimental hashes.
+
+The primary paired-menu figure is included in `main.tex`; spectrum-resolved
+statistics, reserve/boundary diagnostics, and the scaling control are in
+`ex_supplement.tex`. Tests cover numerical certificates, nested-menu DP
+monotonicity, input/result integrity, the three-stage smoke pipeline, archived
+manuscript numbers, and legend placement:
+
+```bash
+python -m unittest discover -s experiments/tests -v
+```
