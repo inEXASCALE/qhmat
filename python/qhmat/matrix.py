@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from dataclasses import dataclass
 import os
 
 import numpy as np
@@ -14,6 +15,49 @@ class InfeasibleError(ValueError):
     """The requested strict diagonal-only representation exceeds its budget."""
 
 
+@dataclass(frozen=True)
+class StorageReport:
+    """Sizes of a stored representation, excluding construction workspace."""
+
+    dense_fp64_bytes: int
+    logical_bits: int
+    allocated_bytes: int
+    resident_bytes: int
+    source_array_bytes: int | None = None
+
+    @property
+    def logical_bytes(self) -> int:
+        """Logical storage rounded up to whole bytes."""
+        return (self.logical_bits + 7) // 8
+
+    @property
+    def logical_compression(self) -> float:
+        return self.dense_fp64_bytes / (self.logical_bits / 8)
+
+    @property
+    def resident_compression(self) -> float:
+        return self.dense_fp64_bytes / self.resident_bytes
+
+
+def _format_bytes(size: int) -> str:
+    value = float(size)
+    for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
+        if value < 1024 or unit == "TiB":
+            return f"{value:.1f} {unit}" if unit != "B" else f"{size} B"
+        value /= 1024
+    raise AssertionError("unreachable")
+
+
+def _print_storage_report(report: StorageReport) -> None:
+    if report.source_array_bytes is not None:
+        print(f"Input array: {_format_bytes(report.source_array_bytes)}")
+    print(f"Dense FP64 baseline: {_format_bytes(report.dense_fp64_bytes)}")
+    print(f"H-matrix logical storage: {report.logical_bits} bits "
+          f"({report.logical_compression:.2f}x compression vs FP64)")
+    print(f"H-matrix C++ resident estimate: {_format_bytes(report.resident_bytes)} "
+          f"({report.resident_compression:.2f}x compression vs FP64)")
+
+
 class HMatrix:
     """A diagonal-dense, off-diagonal quantized hierarchical matrix.
 
@@ -23,8 +67,9 @@ class HMatrix:
     not include floating-point error in ``matmul`` or ``to_dense``.
     """
 
-    def __init__(self, native: NativeHMatrix):
+    def __init__(self, native: NativeHMatrix, source_array_bytes: int | None = None):
         self._native = native
+        self._source_array_bytes = source_array_bytes
 
     @classmethod
     def from_dense(
@@ -42,12 +87,14 @@ class HMatrix:
         arithmetic_reserve: float = 0.02,
         support_lower: np.ndarray | None = None,
         support_upper: np.ndarray | None = None,
+        verbose: bool = False,
     ) -> HMatrix:
         """Partition a dense matrix and quantize every non-diagonal block.
 
         ``points[i]`` describes row and column ``i``; support boxes may be
         supplied for BEM panels. ``tolerance`` is relative to each block's
-        max norm. No non-diagonal dense fallback is permitted.
+        max norm. No non-diagonal dense fallback is permitted. ``verbose=1``
+        prints a storage summary after successful construction.
         """
         a = np.asarray(matrix, dtype=np.float64)
         p = np.asarray(points, dtype=np.float64)
@@ -76,12 +123,16 @@ class HMatrix:
         lo = p if support_lower is None else np.asarray(support_lower, dtype=np.float64)
         hi = p if support_upper is None else np.asarray(support_upper, dtype=np.float64)
         partition = spatial_partition(p, lo, hi, leaf_size, admissibility)
-        return cls.from_partition(
+        result = cls.from_partition(
             a, partition.permutation, partition.blocks, tolerance=tolerance,
             bit_widths=widths, rank_tolerance=rank_tolerance, max_rank=max_rank,
             truncation_fraction=truncation_fraction,
             arithmetic_reserve=arithmetic_reserve,
         )
+        result._source_array_bytes = int(np.asarray(matrix).nbytes)
+        if verbose:
+            _print_storage_report(result.storage_report())
+        return result
 
     @classmethod
     def from_partition(
@@ -96,8 +147,9 @@ class HMatrix:
         max_rank: int | None = None,
         truncation_fraction: float = 0.25,
         arithmetic_reserve: float = 0.02,
+        verbose: bool = False,
     ) -> HMatrix:
-        """Build from a validated user-supplied disjoint block partition."""
+        """Build from a disjoint partition; ``verbose=1`` prints storage."""
         a = np.asarray(matrix, dtype=np.float64)
         if a.ndim != 2 or a.shape[0] != a.shape[1] or a.shape[0] == 0:
             raise ValueError("matrix must be nonempty and square")
@@ -169,7 +221,10 @@ class HMatrix:
                 )
             native.add_low_rank(rect, u, sigma, v, allocation.bits, len(widths), residual)
         native.finalize()
-        return cls(native)
+        result = cls(native, source_array_bytes=int(np.asarray(matrix).nbytes))
+        if verbose:
+            _print_storage_report(result.storage_report())
+        return result
 
     @property
     def shape(self) -> tuple[int, int]:
@@ -188,6 +243,26 @@ class HMatrix:
     def allocated_bytes(self) -> int:
         """Native vector payload bytes, excluding container and tree overhead."""
         return self._native.allocated_bytes
+
+    @property
+    def resident_bytes(self) -> int:
+        """Estimated owned C++ bytes, including vector capacities and objects.
+
+        Excludes allocator overhead, the Python wrapper, construction workspace,
+        source arrays, and any CUDA allocations. It is not process RSS.
+        """
+        return self._native.resident_bytes
+
+    def storage_report(self) -> StorageReport:
+        """Compare the stored representation with a dense FP64 matrix."""
+        order = self._native.order
+        return StorageReport(
+            dense_fp64_bytes=order * order * np.dtype(np.float64).itemsize,
+            logical_bits=self.logical_bits,
+            allocated_bytes=self.allocated_bytes,
+            resident_bytes=self.resident_bytes,
+            source_array_bytes=self._source_array_bytes,
+        )
 
     @property
     def reconstruction_bound(self) -> float:
@@ -215,3 +290,18 @@ class HMatrix:
     def load(cls, path: str | os.PathLike[str]) -> HMatrix:
         """Load and validate a saved packed representation."""
         return cls(NativeHMatrix.load(os.fspath(path)))
+
+
+def memory_bytes(value: np.ndarray | HMatrix | NativeHMatrix) -> int:
+    """Return array payload bytes or estimated owned C++ H-matrix bytes.
+
+    Array views count their visible elements, not the full backing allocation.
+    H-matrix estimates exclude Python, allocator, and temporary workspace costs.
+    """
+    if isinstance(value, np.ndarray):
+        return int(value.nbytes)
+    if isinstance(value, HMatrix):
+        return value.resident_bytes
+    if isinstance(value, NativeHMatrix):
+        return value.resident_bytes
+    raise TypeError("memory_bytes expects a NumPy array or qhmat H-matrix")

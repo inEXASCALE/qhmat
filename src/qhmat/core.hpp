@@ -68,6 +68,7 @@ public:
     std::size_t order() const noexcept { return order_; }
     std::uint64_t logical_bits() const;
     std::uint64_t allocated_bytes() const;
+    std::uint64_t resident_bytes() const;
     double reconstruction_bound() const;
     void save(const std::string& path) const;
     static HMatrix load(const std::string& path);

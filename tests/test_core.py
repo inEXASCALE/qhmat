@@ -83,6 +83,58 @@ def test_high_level_kernel_matrix():
     assert matrix.logical_bits < source.size * 64
 
 
+def test_memory_report_and_verbose(capsys, tmp_path):
+    source = np.diag([2.0, 3.0]).astype(np.float32)
+    matrix = qhmat.HMatrix.from_dense(
+        source, np.arange(2)[:, None], tolerance=0.1, leaf_size=1, verbose=1
+    )
+    output = capsys.readouterr().out
+    assert output.count("Input array:") == 1
+    assert "Dense FP64 baseline:" in output
+    assert "H-matrix C++ resident estimate:" in output
+    report = matrix.storage_report()
+    assert report.source_array_bytes == source.nbytes == qhmat.memory_bytes(source)
+    assert qhmat.memory_bytes(source[:1]) == source[:1].nbytes
+    assert report.dense_fp64_bytes == source.size * 8
+    assert report.logical_bits == matrix.logical_bits
+    assert report.logical_bytes == (matrix.logical_bits + 7) // 8
+    assert report.logical_compression == report.dense_fp64_bytes / (report.logical_bits / 8)
+    assert report.resident_bytes == qhmat.memory_bytes(matrix)
+    assert report.resident_bytes == qhmat.memory_bytes(matrix._native)
+    assert report.resident_bytes > matrix.allocated_bytes
+    assert report.resident_compression == report.dense_fp64_bytes / report.resident_bytes
+
+    path = tmp_path / "memory.qhmat"
+    matrix.save(path)
+    loaded = qhmat.HMatrix.load(path).storage_report()
+    assert loaded.source_array_bytes is None
+    assert loaded.dense_fp64_bytes == report.dense_fp64_bytes
+    assert loaded.logical_bits == report.logical_bits
+    assert loaded.resident_bytes >= loaded.allocated_bytes
+    with pytest.raises(TypeError, match="NumPy array"):
+        qhmat.memory_bytes([1.0, 2.0])
+
+
+def test_partition_verbose_and_infeasible_output(capsys):
+    source = np.diag([2.0, 3.0])
+    rectangles = [
+        qhmat.Rectangle(i, i + 1, j, j + 1)
+        for i in range(2) for j in range(2)
+    ]
+    qhmat.HMatrix.from_partition(
+        source, [0, 1], rectangles, tolerance=0.1, verbose=1
+    )
+    assert capsys.readouterr().out.count("Input array:") == 1
+    qhmat.HMatrix.from_partition(source, [0, 1], rectangles, tolerance=0.1)
+    assert capsys.readouterr().out == ""
+    with pytest.raises(qhmat.InfeasibleError):
+        qhmat.HMatrix.from_dense(
+            np.ones((4, 4)), np.arange(4)[:, None], tolerance=1e-12,
+            leaf_size=1, bit_widths=(4, 8), verbose=1,
+        )
+    assert capsys.readouterr().out == ""
+
+
 def test_infeasible_budget_has_no_dense_offdiagonal_fallback():
     points = np.arange(4, dtype=float)[:, None]
     source = np.ones((4, 4))

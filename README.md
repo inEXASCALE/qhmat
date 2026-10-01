@@ -59,7 +59,13 @@ y = h @ x
 
 print(h.shape, h.logical_bits, h.reconstruction_bound)
 print(np.max(np.abs(matrix - h.to_dense())))
+print(qhmat.memory_bytes(matrix), qhmat.memory_bytes(h))
+print(h.storage_report())
 ```
+
+Pass `verbose=1` to `HMatrix.from_dense` or `HMatrix.from_partition` to print
+the input array payload, dense FP64 baseline, logical storage, and estimated
+C++ resident size once construction succeeds.
 
 `from_dense` uses a stable median-split cluster tree and Euclidean bounding-box admissibility. Optional `support_lower` and `support_upper` arrays make the boxes enclose full BEM panel supports. `from_partition` accepts a user-supplied disjoint block partition. NumPy's LAPACK-backed SVD runs during construction; bit allocation, packing, storage accounting, reconstruction, and multiplication run in C++.
 
@@ -69,6 +75,8 @@ The package exposes `allocate_bits`, `coefficient`, `spatial_partition`, `Rectan
 
 - `logical_bits` counts packed integer payload, two FP64 scales per component, direct precision labels, and FP64 diagonal entries. It excludes tree topology, headers, and workspace.
 - `allocated_bytes` counts native vector payloads, including word padding and in-memory offsets; it excludes C++ object and allocator overhead. It is not an on-disk format size.
+- `memory_bytes(array)` returns NumPy's `array.nbytes` (for a view, only its visible elements). `memory_bytes(h)` and `h.resident_bytes` estimate owned C++ memory using object sizes and vector capacities; they exclude allocator overhead, the Python wrapper, CUDA allocations, and temporary construction workspace. Neither is process RSS.
+- `h.storage_report()` compares the dense FP64 baseline with logical storage and the C++ resident estimate. `source_array_bytes` records the original NumPy input payload when built from an array; it is unavailable after `load`. Compression ratios use the FP64 baseline, which may differ from the input array size if its dtype is not FP64. The source array stays alive if the caller retains it.
 - `save` writes a versioned, checksummed binary representation. `load` validates the checksum, dimensions, and block partition. The checksum detects accidental corruption, not malicious tampering. Saving never overwrites an existing file; remove or rename it explicitly first.
 
 - `reconstruction_bound` is the maximum over blocks of measured SVD truncation error plus the singular-value quantization surrogate. It bounds the stored representation in exact arithmetic, not the floating-point error of `matmul` or `to_dense`.

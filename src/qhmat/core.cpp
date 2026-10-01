@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <functional>
+#include <initializer_list>
 #include <limits>
 #include <numeric>
 #include <stdexcept>
@@ -443,6 +444,23 @@ std::uint64_t HMatrix::logical_bits() const {
 std::uint64_t HMatrix::allocated_bytes() const {
     std::uint64_t bytes = 0;
     for (const auto& block : block_info()) bytes = checked_add(bytes, block.allocated_bytes);
+    return bytes;
+}
+
+std::uint64_t HMatrix::resident_bytes() const {
+    // Count owned vector capacities and in-place objects, not allocator metadata or workspace.
+    std::uint64_t bytes = sizeof(*this);
+    bytes = checked_add(bytes, checked_mul(permutation_.capacity(), sizeof(std::size_t)));
+    bytes = checked_add(bytes, checked_mul(blocks_.capacity(), sizeof(Block)));
+    for (const auto& block : blocks_) {
+        bytes = checked_add(bytes, checked_mul(block.dense.capacity(), sizeof(double)));
+        bytes = checked_add(bytes, checked_mul(block.widths.capacity(), sizeof(int)));
+        for (const auto* factor : {&block.left, &block.right}) {
+            bytes = checked_add(bytes, checked_mul(factor->words.capacity(), sizeof(std::uint32_t)));
+            bytes = checked_add(bytes, checked_mul(factor->offsets.capacity(), sizeof(std::size_t)));
+            bytes = checked_add(bytes, checked_mul(factor->scales.capacity(), sizeof(double)));
+        }
+    }
     return bytes;
 }
 

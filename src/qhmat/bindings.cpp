@@ -166,6 +166,7 @@ PYBIND11_MODULE(_core, m) {
         .def_property_readonly("order", &HMatrix::order)
         .def_property_readonly("logical_bits", &HMatrix::logical_bits)
         .def_property_readonly("allocated_bytes", &HMatrix::allocated_bytes)
+        .def_property_readonly("resident_bytes", &HMatrix::resident_bytes)
         .def_property_readonly("reconstruction_bound", &HMatrix::reconstruction_bound)
         .def_property_readonly("blocks", &HMatrix::block_info);
 
