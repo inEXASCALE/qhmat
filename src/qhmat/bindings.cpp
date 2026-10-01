@@ -54,43 +54,58 @@ py::array_t<double> matrix_array(const std::vector<double>& values,
 PYBIND11_MODULE(_core, m) {
     m.doc() = "C++ core for adaptive integer-quantized hierarchical matrices";
 
-    py::class_<qhmat::Allocation>(m, "Allocation")
-        .def_readonly("bits", &qhmat::Allocation::bits)
-        .def_readonly("bound", &qhmat::Allocation::bound)
-        .def_readonly("payload_bits", &qhmat::Allocation::payload_bits)
-        .def_readonly("feasible", &qhmat::Allocation::feasible);
+    py::class_<qhmat::Allocation>(m, "Allocation",
+        "Result of discrete bit allocation for one factorized block.")
+        .def_readonly("bits", &qhmat::Allocation::bits, "Width of each retained component.")
+        .def_readonly("bound", &qhmat::Allocation::bound, "Singular-value error surrogate.")
+        .def_readonly("payload_bits", &qhmat::Allocation::payload_bits,
+                      "Packed factor payload in bits, excluding scales and labels.")
+        .def_readonly("feasible", &qhmat::Allocation::feasible,
+                      "Whether the surrogate fits within the supplied budget.");
 
-    py::class_<Rectangle>(m, "Rectangle")
+    py::class_<Rectangle>(m, "Rectangle",
+        "Block bounds [row0:row1, col0:col1] in clustered index coordinates.")
         .def(py::init<std::size_t, std::size_t, std::size_t, std::size_t, bool>(),
              py::arg("row0"), py::arg("row1"), py::arg("col0"),
              py::arg("col1"), py::arg("admissible") = false)
-        .def_readonly("row0", &Rectangle::row0)
-        .def_readonly("row1", &Rectangle::row1)
-        .def_readonly("col0", &Rectangle::col0)
-        .def_readonly("col1", &Rectangle::col1)
-        .def_readonly("admissible", &Rectangle::admissible);
+        .def_readonly("row0", &Rectangle::row0, "Inclusive row start.")
+        .def_readonly("row1", &Rectangle::row1, "Exclusive row end.")
+        .def_readonly("col0", &Rectangle::col0, "Inclusive column start.")
+        .def_readonly("col1", &Rectangle::col1, "Exclusive column end.")
+        .def_readonly("admissible", &Rectangle::admissible,
+                      "Geometric admissibility flag, independent of storage format.");
 
-    py::class_<qhmat::Partition>(m, "Partition")
-        .def_readonly("permutation", &qhmat::Partition::permutation)
-        .def_readonly("blocks", &qhmat::Partition::blocks);
+    py::class_<qhmat::Partition>(m, "Partition",
+        "Clustered permutation and disjoint block rectangles.")
+        .def_readonly("permutation", &qhmat::Partition::permutation,
+                      "Clustered position to source index mapping.")
+        .def_readonly("blocks", &qhmat::Partition::blocks,
+                      "Disjoint rectangles covering the full matrix.");
 
-    py::class_<qhmat::BlockInfo>(m, "BlockInfo")
-        .def_readonly("rectangle", &qhmat::BlockInfo::rectangle)
-        .def_readonly("dense", &qhmat::BlockInfo::dense)
-        .def_readonly("rank", &qhmat::BlockInfo::rank)
-        .def_readonly("truncation_error", &qhmat::BlockInfo::truncation_error)
-        .def_readonly("quantization_bound", &qhmat::BlockInfo::quantization_bound)
-        .def_readonly("logical_bits", &qhmat::BlockInfo::logical_bits)
-        .def_readonly("allocated_bytes", &qhmat::BlockInfo::allocated_bytes);
+    py::class_<qhmat::BlockInfo>(m, "BlockInfo",
+        "Read-only geometry, rank, error, and storage for a stored block.")
+        .def_readonly("rectangle", &qhmat::BlockInfo::rectangle, "Block coordinates.")
+        .def_readonly("dense", &qhmat::BlockInfo::dense, "Whether stored as dense FP64.")
+        .def_readonly("rank", &qhmat::BlockInfo::rank, "Number of retained components.")
+        .def_readonly("truncation_error", &qhmat::BlockInfo::truncation_error,
+                      "Measured max-norm SVD truncation residual.")
+        .def_readonly("quantization_bound", &qhmat::BlockInfo::quantization_bound,
+                      "Singular-value quantization surrogate for this block.")
+        .def_readonly("logical_bits", &qhmat::BlockInfo::logical_bits,
+                      "Theoretical stored bits for this block.")
+        .def_readonly("allocated_bytes", &qhmat::BlockInfo::allocated_bytes,
+                      "Native vector payload bytes for this block.");
 
-    m.def("coefficient", &qhmat::coefficient, py::arg("bits"));
+    m.def("coefficient", &qhmat::coefficient, py::arg("bits"),
+          "Return c(b) = 1/q + 1/(4*q*q), where q = 2**(b-1) - 1.");
     m.def("allocate", [](const Array& singular_values, const std::vector<int>& widths,
                           double budget, std::size_t rows, std::size_t cols) {
         auto values = vector1(singular_values, "singular_values");
         py::gil_scoped_release release;
         return qhmat::allocate(values, widths, budget, rows, cols);
     }, py::arg("singular_values"), py::arg("bit_widths"), py::arg("budget"),
-       py::arg("rows"), py::arg("cols"));
+       py::arg("rows"), py::arg("cols"),
+       "Choose per-component widths satisfying the singular-value surrogate budget.");
 
     m.def("spatial_partition", [](const Array& points, const Array& lower,
                                    const Array& upper, std::size_t leaf_size,
@@ -103,15 +118,17 @@ PYBIND11_MODULE(_core, m) {
         py::gil_scoped_release release;
         return qhmat::spatial_partition(p, lo, hi, n, d, leaf_size, eta);
     }, py::arg("points"), py::arg("support_lower"), py::arg("support_upper"),
-       py::arg("leaf_size"), py::arg("admissibility"));
+       py::arg("leaf_size"), py::arg("admissibility"),
+       "Median-split points and form a disjoint block partition using box separation.");
 
-    py::class_<HMatrix>(m, "NativeHMatrix")
+    py::class_<HMatrix>(m, "NativeHMatrix",
+        "Low-level C++ matrix builder; use HMatrix.from_dense for normal construction.")
         .def(py::init<std::size_t, std::vector<std::size_t>>(),
              py::arg("order"), py::arg("permutation"))
         .def("add_dense", [](HMatrix& matrix, Rectangle rect, const Array& data) {
             matrix.add_dense(rect, row_major2(data, rect.row1 - rect.row0,
                                               rect.col1 - rect.col0, "dense block"));
-        })
+        }, "Add a dense FP64 block; its row and column clusters must be identical.")
         .def("add_low_rank", [](HMatrix& matrix, Rectangle rect, const Array& u,
                                 const Array& sigma, const Array& v,
                                 const std::vector<int>& bits, std::size_t menu_size,
@@ -124,10 +141,14 @@ PYBIND11_MODULE(_core, m) {
             matrix.add_low_rank(rect, left, s, right, bits, menu_size, truncation_error);
         }, py::arg("rectangle"), py::arg("u"), py::arg("singular_values"),
            py::arg("v"), py::arg("bits"), py::arg("menu_size"),
-           py::arg("truncation_error"))
-        .def("finalize", &HMatrix::finalize)
-        .def("save", &HMatrix::save, py::arg("path"))
-        .def_static("load", &HMatrix::load, py::arg("path"))
+           py::arg("truncation_error"),
+           "Add an off-diagonal SVD block; balanced quantized packing is internal.")
+        .def("finalize", &HMatrix::finalize,
+             "Validate that added blocks form a disjoint complete partition.")
+        .def("save", &HMatrix::save, py::arg("path"),
+             "Write a checksummed file; refuse to overwrite an existing file.")
+        .def_static("load", &HMatrix::load, py::arg("path"),
+                    "Load and validate a saved native matrix.")
         .def("matmul", [](const HMatrix& matrix, const Array& x,
                           bool use_cuda) {
             if (x.ndim() != 1 && x.ndim() != 2)
@@ -154,7 +175,8 @@ PYBIND11_MODULE(_core, m) {
                 return out;
             }
             return matrix_array(result, matrix.order(), rhs);
-        }, py::arg("x"), py::arg("use_cuda") = false)
+        }, py::arg("x"), py::arg("use_cuda") = false,
+           "Apply to a vector or multiple right-hand sides.")
         .def("reconstruct", [](const HMatrix& matrix) {
             std::vector<double> result;
             {
@@ -162,13 +184,18 @@ PYBIND11_MODULE(_core, m) {
                 result = matrix.reconstruct();
             }
             return matrix_array(result, matrix.order(), matrix.order());
-        })
-        .def_property_readonly("order", &HMatrix::order)
-        .def_property_readonly("logical_bits", &HMatrix::logical_bits)
-        .def_property_readonly("allocated_bytes", &HMatrix::allocated_bytes)
-        .def_property_readonly("resident_bytes", &HMatrix::resident_bytes)
-        .def_property_readonly("reconstruction_bound", &HMatrix::reconstruction_bound)
-        .def_property_readonly("blocks", &HMatrix::block_info);
+        }, "Reconstruct a dense FP64 matrix in source index order.")
+        .def_property_readonly("order", &HMatrix::order, "Matrix order n.")
+        .def_property_readonly("logical_bits", &HMatrix::logical_bits,
+                               "Theoretical representation size in bits.")
+        .def_property_readonly("allocated_bytes", &HMatrix::allocated_bytes,
+                               "Native vector payload bytes.")
+        .def_property_readonly("resident_bytes", &HMatrix::resident_bytes,
+                               "Owned C++ object and vector capacity estimate in bytes.")
+        .def_property_readonly("reconstruction_bound", &HMatrix::reconstruction_bound,
+                               "Exact-arithmetic max-norm representation bound.")
+        .def_property_readonly("blocks", &HMatrix::block_info,
+                               "Metadata for the completed block partition.");
 
 #ifdef QHMAT_HAS_CUDA
     m.attr("cuda_built") = true;

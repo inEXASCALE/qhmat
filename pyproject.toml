@@ -27,6 +27,7 @@ dependencies = ["numpy>=1.23"]
 
 [project.optional-dependencies]
 test = ["pytest>=7"]
+docs = ["sphinx>=7,<10", "sphinx-rtd-theme>=2,<4"]
 
 [project.urls]
 Homepage = "https://github.com/inEXASCALE/qhmat"
@@ -36,7 +37,7 @@ Issues = "https://github.com/inEXASCALE/qhmat/issues"
 [tool.scikit-build]
 minimum-version = "0.11"
 wheel.packages = ["python/qhmat"]
-sdist.exclude = ["experiments/**", "matlab/**", "supplement/**", ".github/**", ".vscode/**"]
+sdist.exclude = ["experiments/**", "matlab/**", "supplement/**", "docs/_build/**", ".github/**", ".vscode/**"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

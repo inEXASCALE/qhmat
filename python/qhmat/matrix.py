@@ -12,12 +12,17 @@ from ._core import NativeHMatrix, Rectangle, allocate, spatial_partition
 
 
 class InfeasibleError(ValueError):
-    """The requested strict diagonal-only representation exceeds its budget."""
+    """A non-diagonal block cannot meet its truncation or bit-allocation budget."""
 
 
 @dataclass(frozen=True)
 class StorageReport:
-    """Sizes of a stored representation, excluding construction workspace."""
+    """Dense baseline and stored-representation sizes, in bytes unless noted.
+
+    ``source_array_bytes`` is unavailable after loading a saved H-matrix.
+    Compression ratios compare with a dense FP64 matrix, not necessarily the
+    dtype of the source array. The resident estimate is not process RSS.
+    """
 
     dense_fp64_bytes: int
     logical_bits: int
@@ -64,7 +69,9 @@ class HMatrix:
     Construction uses NumPy's LAPACK-backed SVD. Packing, allocation, storage
     accounting, reconstruction, and multiplication are implemented in C++.
     The reported bound concerns the saved matrix in exact arithmetic; it does
-    not include floating-point error in ``matmul`` or ``to_dense``.
+    not include floating-point error in ``matmul`` or ``to_dense``. Only
+    diagonal blocks are stored densely; a non-diagonal block that cannot meet
+    its budget raises :class:`InfeasibleError` rather than falling back to dense.
     """
 
     def __init__(self, native: NativeHMatrix, source_array_bytes: int | None = None):
@@ -91,10 +98,18 @@ class HMatrix:
     ) -> HMatrix:
         """Partition a dense matrix and quantize every non-diagonal block.
 
-        ``points[i]`` describes row and column ``i``; support boxes may be
-        supplied for BEM panels. ``tolerance`` is relative to each block's
-        max norm. No non-diagonal dense fallback is permitted. ``verbose=1``
-        prints a storage summary after successful construction.
+        ``matrix`` is a square array, interpreted in FP64. ``points[i]``
+        describes row and column ``i``; optional ``support_lower`` and
+        ``support_upper`` enclose full panel supports for BEM matrices.
+        The common cluster tree is median-split and stops at ``leaf_size``.
+        ``admissibility`` controls bounding-box separation. Each non-diagonal
+        block receives the max-norm budget ``tolerance * max(abs(block))``.
+        ``rank_tolerance`` caps its relative Frobenius SVD tail;
+        ``truncation_fraction`` limits the SVD share of the block budget;
+        ``arithmetic_reserve`` withholds a further fraction from allocation.
+        ``bit_widths`` is the selectable integer precision menu and
+        ``max_rank`` optionally caps retained rank. ``verbose=1`` prints
+        storage only after successful construction.
         """
         a = np.asarray(matrix, dtype=np.float64)
         p = np.asarray(points, dtype=np.float64)
@@ -149,7 +164,15 @@ class HMatrix:
         arithmetic_reserve: float = 0.02,
         verbose: bool = False,
     ) -> HMatrix:
-        """Build from a disjoint partition; ``verbose=1`` prints storage."""
+        """Build from user blocks expressed in permuted index coordinates.
+
+        ``permutation`` maps clustered positions back to source indices.
+        ``blocks`` must cover the complete matrix without overlap. Only
+        square blocks with identical row and column clusters may be dense;
+        other blocks must not intersect the diagonal. Allocation and budget
+        parameters have the same meaning as in :meth:`from_dense`.
+        ``verbose=1`` prints storage after successful construction.
+        """
         a = np.asarray(matrix, dtype=np.float64)
         if a.ndim != 2 or a.shape[0] != a.shape[1] or a.shape[0] == 0:
             raise ValueError("matrix must be nonempty and square")
@@ -254,7 +277,7 @@ class HMatrix:
         return self._native.resident_bytes
 
     def storage_report(self) -> StorageReport:
-        """Compare the stored representation with a dense FP64 matrix."""
+        """Compare logical and estimated resident storage with dense FP64."""
         order = self._native.order
         return StorageReport(
             dense_fp64_bytes=order * order * np.dtype(np.float64).itemsize,
@@ -270,25 +293,30 @@ class HMatrix:
         return self._native.reconstruction_bound
 
     def matmul(self, x: np.ndarray, *, device: str = "cpu") -> np.ndarray:
-        """Apply the quantized matrix to one or more right-hand sides."""
+        """Apply to an ``(n,)`` vector or ``(n, p)`` array in FP64.
+
+        ``device='cuda'`` requires a CUDA-enabled build. This method does not
+        promise a speedup or a bound on downstream floating-point error.
+        """
         if device not in ("cpu", "cuda"):
             raise ValueError("device must be 'cpu' or 'cuda'")
         return self._native.matmul(np.asarray(x, dtype=np.float64), device == "cuda")
 
     def __matmul__(self, x: np.ndarray) -> np.ndarray:
+        """Apply on CPU with the ``@`` operator."""
         return self.matmul(x)
 
     def to_dense(self) -> np.ndarray:
-        """Reconstruct a dense FP64 matrix for inspection or validation."""
+        """Reconstruct a dense FP64 array; allocates ``8*n*n`` output bytes."""
         return self._native.reconstruct()
 
     def save(self, path: str | os.PathLike[str]) -> None:
-        """Write a versioned packed representation; existing files are not replaced."""
+        """Write a versioned, checksummed file without replacing an existing file."""
         self._native.save(os.fspath(path))
 
     @classmethod
     def load(cls, path: str | os.PathLike[str]) -> HMatrix:
-        """Load and validate a saved packed representation."""
+        """Load a file after checking its checksum, dimensions and partition."""
         return cls(NativeHMatrix.load(os.fspath(path)))
 
 
