@@ -1,5 +1,5 @@
 {
-  "binary_sha256": "b17b49d898f84c23aca7df538ddcb9c6e97cb2ee6545131e80b9fca0b86d791b",
+  "binary_sha256": "336585217c4db214ca118f88f5d42e5f84f855956ebb625db24bff807ade2390",
   "config": {
     "case_ids": [
       "bem2d_log_circle_n1024",
@@ -41,7 +41,7 @@
       "file": "bem2d_log_circle_n1024_tol0.005.bin",
       "max_rhs": 128,
       "n": 1024,
-      "preparation_and_reference_ms": 726.5074180904776,
+      "preparation_and_reference_ms": 604.0145410224795,
       "reused_svd": false,
       "sha256": "b8d12958c2ac4fe66a77c4d866f048f5e8601578237188f42e2af43ac6a0cd6c",
       "source_hashes": {
@@ -57,7 +57,7 @@
       "file": "bem2d_log_circle_n1024_tol0.01.bin",
       "max_rhs": 128,
       "n": 1024,
-      "preparation_and_reference_ms": 576.9278209190816,
+      "preparation_and_reference_ms": 330.0893409177661,
       "reused_svd": true,
       "sha256": "3e78e7297fa158182ff4a303f46c5196224caebe677d4d8ca3d4199bbeb543b5",
       "source_hashes": {
@@ -73,7 +73,7 @@
       "file": "bem2d_log_circle_n1024_tol0.05.bin",
       "max_rhs": 128,
       "n": 1024,
-      "preparation_and_reference_ms": 571.478386875242,
+      "preparation_and_reference_ms": 305.32946018502116,
       "reused_svd": true,
       "sha256": "194238d4f3754cfdcab4ff7cb0da90cf90a276e0bfcd1566ce35e2f9e5a9d984",
       "source_hashes": {
@@ -89,7 +89,7 @@
       "file": "bem2d_log_circle_n2048_tol0.005.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 6421.3412390090525,
+      "preparation_and_reference_ms": 1789.9143300019205,
       "reused_svd": false,
       "sha256": "3faaf4d4c7cca3708d27689dec92ba00ce6e7166447969400a876186261dc07a",
       "source_hashes": {
@@ -105,7 +105,7 @@
       "file": "bem2d_log_circle_n2048_tol0.01.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 5818.124338053167,
+      "preparation_and_reference_ms": 839.9606426246464,
       "reused_svd": true,
       "sha256": "4192311dd46dc25179f9dcd8ca06e71888fa8f31516779dd62533f5cc335686e",
       "source_hashes": {
@@ -121,7 +121,7 @@
       "file": "bem2d_log_circle_n2048_tol0.05.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 5793.062017066404,
+      "preparation_and_reference_ms": 817.8999372757971,
       "reused_svd": true,
       "sha256": "43046156aa1704e1228517e710b2bf1bb751b0ec69e036d177fb53ccfadaf40d",
       "source_hashes": {
@@ -137,7 +137,7 @@
       "file": "bem2d_log_ellipse_n1024_tol0.005.bin",
       "max_rhs": 128,
       "n": 1024,
-      "preparation_and_reference_ms": 816.7448090389371,
+      "preparation_and_reference_ms": 665.3852700255811,
       "reused_svd": false,
       "sha256": "cb3a0fa136bf0137786e0369d5e77d66e73d018f5d7f0193fa1b6568dc6d59af",
       "source_hashes": {
@@ -153,7 +153,7 @@
       "file": "bem2d_log_ellipse_n1024_tol0.01.bin",
       "max_rhs": 128,
       "n": 1024,
-      "preparation_and_reference_ms": 632.3388209566474,
+      "preparation_and_reference_ms": 350.05400562658906,
       "reused_svd": true,
       "sha256": "7e1cf54d43eeb4bf3433cccbf91133dbd8cec2be44f6a26f447c4b5a4be1201d",
       "source_hashes": {
@@ -169,7 +169,7 @@
       "file": "bem2d_log_ellipse_n1024_tol0.05.bin",
       "max_rhs": 128,
       "n": 1024,
-      "preparation_and_reference_ms": 663.1372489500791,
+      "preparation_and_reference_ms": 341.46799333393574,
       "reused_svd": true,
       "sha256": "71012fab02ece9d547f884a760a8235115d7674f3fda52b45d70190f3b2f6f8a",
       "source_hashes": {
@@ -185,7 +185,7 @@
       "file": "bem2d_log_ellipse_n2048_tol0.005.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 7025.8603021502495,
+      "preparation_and_reference_ms": 1977.8739060275257,
       "reused_svd": false,
       "sha256": "d9756a151247032dbef5cb7a49d4e2d6f76d5616c03015a3db7187fea3b23e41",
       "source_hashes": {
@@ -201,7 +201,7 @@
       "file": "bem2d_log_ellipse_n2048_tol0.01.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 6475.670390995219,
+      "preparation_and_reference_ms": 1005.8469558134675,
       "reused_svd": true,
       "sha256": "b94162c834f63f253d2065ce63fcf7bec23ef984f3f16de32110435a2a95e6fc",
       "source_hashes": {
@@ -217,7 +217,7 @@
       "file": "bem2d_log_ellipse_n2048_tol0.05.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 6340.0761380326,
+      "preparation_and_reference_ms": 949.4886239990592,
       "reused_svd": true,
       "sha256": "f4ccb00f68c032ad394798c9d9cde600fef08f3b9693b549804a1af0adb89e46",
       "source_hashes": {
@@ -233,7 +233,7 @@
       "file": "bem3d_inverse_cube_n1536_tol0.005.bin",
       "max_rhs": 128,
       "n": 1536,
-      "preparation_and_reference_ms": 6531.005482887849,
+      "preparation_and_reference_ms": 3016.323834192008,
       "reused_svd": false,
       "sha256": "8d865b1ee7a63dbfd147c4e5a0e3e31bd5640fc9535946f5f78f2ab3ceaeaab8",
       "source_hashes": {
@@ -249,7 +249,7 @@
       "file": "bem3d_inverse_cube_n1536_tol0.01.bin",
       "max_rhs": 128,
       "n": 1536,
-      "preparation_and_reference_ms": 6283.074791077524,
+      "preparation_and_reference_ms": 2170.299271121621,
       "reused_svd": true,
       "sha256": "743b7aad9ccbede088da15c0eb8726dd9927b61ccf236abc8b5b7dd891685030",
       "source_hashes": {
@@ -265,7 +265,7 @@
       "file": "bem3d_inverse_cube_n1536_tol0.05.bin",
       "max_rhs": 128,
       "n": 1536,
-      "preparation_and_reference_ms": 6213.819724041969,
+      "preparation_and_reference_ms": 2132.7480212785304,
       "reused_svd": true,
       "sha256": "472de2635c725b1f68f496f6e5f915f6d556674620caa798b4f879028a6fed1f",
       "source_hashes": {
@@ -281,7 +281,7 @@
       "file": "bem3d_inverse_cuboid_n1536_tol0.005.bin",
       "max_rhs": 128,
       "n": 1536,
-      "preparation_and_reference_ms": 6231.821632012725,
+      "preparation_and_reference_ms": 2467.2096190042794,
       "reused_svd": false,
       "sha256": "34360b18f81929511cf8c6d63cb51f70b69ecf713f7edcc44d5ed101ac2ccc31",
       "source_hashes": {
@@ -297,7 +297,7 @@
       "file": "bem3d_inverse_cuboid_n1536_tol0.01.bin",
       "max_rhs": 128,
       "n": 1536,
-      "preparation_and_reference_ms": 6006.964897969738,
+      "preparation_and_reference_ms": 1796.9533680006862,
       "reused_svd": true,
       "sha256": "a4045aa3c22bf674280a4932af2d9584447c9a6509895ddc999b00eea105c663",
       "source_hashes": {
@@ -313,7 +313,7 @@
       "file": "bem3d_inverse_cuboid_n1536_tol0.05.bin",
       "max_rhs": 128,
       "n": 1536,
-      "preparation_and_reference_ms": 5948.270501801744,
+      "preparation_and_reference_ms": 1750.9301118552685,
       "reused_svd": true,
       "sha256": "2a161fba01c2fa10b6e27c7ed07ed4dc7cf398caa31117ef03c53212ac158e87",
       "source_hashes": {
@@ -329,7 +329,7 @@
       "file": "kernel_inverse_distance_2d_uniform_n2048_tol0.005.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 14174.396592890844,
+      "preparation_and_reference_ms": 3072.775118984282,
       "reused_svd": false,
       "sha256": "649a623c8ae3d66109f97d6934a186e8513eb01cc1f86d68ae7c947df19f1784",
       "source_hashes": {
@@ -345,7 +345,7 @@
       "file": "kernel_inverse_distance_2d_uniform_n2048_tol0.01.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 13648.397945100442,
+      "preparation_and_reference_ms": 2095.9540931507945,
       "reused_svd": true,
       "sha256": "283d16abddd12bf8a98c54ae118728fa18e964d1a350a5a2f52cc6d3b8658372",
       "source_hashes": {
@@ -361,7 +361,7 @@
       "file": "kernel_inverse_distance_2d_uniform_n2048_tol0.05.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 13718.330380041152,
+      "preparation_and_reference_ms": 2065.0034211575985,
       "reused_svd": true,
       "sha256": "be7fefd7d69aab7bb1e619215007b53ec5c391cfb0e6c2f2ab3ed47692722f48",
       "source_hashes": {
@@ -377,7 +377,7 @@
       "file": "kernel_log_distance_2d_uniform_n2048_tol0.005.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 14215.901093091816,
+      "preparation_and_reference_ms": 2859.7066937945783,
       "reused_svd": false,
       "sha256": "9d03ae524bea4fe90cdbdd56e5e72fc5d68e5fa51a6e1e194e12b9ae1dd58c7f",
       "source_hashes": {
@@ -393,7 +393,7 @@
       "file": "kernel_log_distance_2d_uniform_n2048_tol0.01.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 13805.40972086601,
+      "preparation_and_reference_ms": 1940.4737991280854,
       "reused_svd": true,
       "sha256": "74eb1cb3b5487fbcedceb28a5460c8238fdee92d26fd06131706b7ce65aab5ce",
       "source_hashes": {
@@ -409,7 +409,7 @@
       "file": "kernel_log_distance_2d_uniform_n2048_tol0.05.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 13696.152857970446,
+      "preparation_and_reference_ms": 1942.2161313705146,
       "reused_svd": true,
       "sha256": "9875f23e0ef0d444eaca7b5b9ce72ef5cdc0fcdb2bc4df653351fc8d03ed90f3",
       "source_hashes": {
@@ -425,7 +425,7 @@
       "file": "kernel_inverse_distance_3d_uniform_n2048_tol0.005.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 15080.689799971879,
+      "preparation_and_reference_ms": 3687.5741076655686,
       "reused_svd": false,
       "sha256": "809eb1b1df199bc34a8eb0a8f6cd1406d9c515200fa659c1976947fbcad2040b",
       "source_hashes": {
@@ -441,7 +441,7 @@
       "file": "kernel_inverse_distance_3d_uniform_n2048_tol0.01.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 14150.425960076973,
+      "preparation_and_reference_ms": 3008.729357738048,
       "reused_svd": true,
       "sha256": "846ab35bcc438794e6a62614e30d931bf6892409e1bdbae10b59dc20c7a1355c",
       "source_hashes": {
@@ -457,7 +457,7 @@
       "file": "kernel_inverse_distance_3d_uniform_n2048_tol0.05.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 14934.097491204739,
+      "preparation_and_reference_ms": 2973.4464599750936,
       "reused_svd": true,
       "sha256": "2123a53e500113fbbfe6af3ca5fd4d71b952ba1a30772f41653f1e044442cddb",
       "source_hashes": {
@@ -473,7 +473,7 @@
       "file": "kernel_log_distance_3d_uniform_n2048_tol0.005.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 15935.92522898689,
+      "preparation_and_reference_ms": 4074.939284939319,
       "reused_svd": false,
       "sha256": "4810a2912b6fdf51ab31ba3ebf2b09f3eebd8199ddbd0238d78b4230aa793b02",
       "source_hashes": {
@@ -489,7 +489,7 @@
       "file": "kernel_log_distance_3d_uniform_n2048_tol0.01.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 15473.331455839798,
+      "preparation_and_reference_ms": 3342.3105170950294,
       "reused_svd": true,
       "sha256": "118f721cee0301a83439d45e818f0a496ec2386a6e4fc7d123d3a8c6e060c351",
       "source_hashes": {
@@ -505,7 +505,7 @@
       "file": "kernel_log_distance_3d_uniform_n2048_tol0.05.bin",
       "max_rhs": 128,
       "n": 2048,
-      "preparation_and_reference_ms": 15549.07874413766,
+      "preparation_and_reference_ms": 3303.9967492222786,
       "reused_svd": true,
       "sha256": "ce92d311d3a02a341e562e872b0523cd9577c944a7eb200ce1cfc29955d1449a",
       "source_hashes": {
@@ -515,7 +515,7 @@
       "tol": 0.05
     }
   ],
-  "manifest_sha256": "6305626057673abd83ecfbee680f00383047083ed0be6f4a87992a10ed52aee4",
+  "manifest_sha256": "6be60bf63e05bbbc17e8abe77355d9cd5025a824de48a4fabcca8a0712f35246",
   "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.43",
   "smoke": false,
   "status": "complete"

@@ -1,5 +1,6 @@
 """Check manuscript tables and supplemental selections against the saved run."""
 import math
+import json
 import re
 import sys
 import tempfile
@@ -72,10 +73,11 @@ class ManuscriptEvidenceTests(unittest.TestCase):
         self.assertEqual(len(certified), 1501)
         self.assertTrue(all(r["validation"] == "certificate_pass" for r in certified))
         for source in (self.main, self.supp):
-            self.assertIn("1,501 certified reconstruction", source)
+            self.assertIn("1,501", source)
+            self.assertIn("strict-arithmetic error bounds", source)
             self.assertNotIn(r"\label{tab:exp-gpu}", source)
             self.assertNotIn("Speedup", source)
-        self.assertIn("not native mixed-bit integer arithmetic", self.main)
+        self.assertIn("rather than using native mixed-bit integer arithmetic", self.main)
         self.assertIn("not validations of the columnwise mixed-bit", self.supp)
 
     def test_incremental_storage_ranges(self):
@@ -116,17 +118,48 @@ class ManuscriptEvidenceTests(unittest.TestCase):
                 self.assertTrue(all(r["validation"] == "certificate_pass" for r in rows))
                 self.assertTrue(all(math.isfinite(float(r["relative_max_error"])) for r in rows))
         self.assertIn("11 synthetic and 68 admissible-block", self.supp)
-        self.assertIn("each tested in six modes", self.supp)
+        self.assertIn("each tested in six allocation modes", self.supp)
+
+    def test_latest_environment_and_application_scope(self):
+        validation = json.loads((ROOT / "experiments/results_offdiagonal_a100/numerical_validation.json").read_text())
+        self.assertIn(f"Python {validation['python']}", self.supp)
+        self.assertIn(f"NumPy {validation['numpy']}", self.supp)
+        for field in ("cuda_runtime", "cuda_driver", "cublas_version"):
+            versions = {r[field] for r in self.native}
+            self.assertEqual(len(versions), 1)
+            self.assertIn(next(iter(versions)), self.supp)
+        for source in (self.main, self.supp):
+            self.assertIn("NVIDIA A100", source)
+
+        run = json.loads((ROOT / "experiments/results_application_a100/application_run.json").read_text())
+        source_cfg = load_config(run["config"]["source_config"])
+        self.assertEqual(source_cfg["hmatrix"]["storage_policy"], "admissible_only")
+        self.assertEqual(source_cfg["bit_set"], [4, 8, 12, 16])
+        application_text = self.supp.split(r"\label{sec:supp-application}", 1)[1]
+        self.assertNotIn("preserves diagonal-only dense decisions", application_text)
+        self.assertIn("Non-diagonal inadmissible blocks remain dense", application_text)
+        self.assertEqual(sum(int(r["fallback_count"]) > 0 for r in run["inputs"]), 3)
+        self.assertIn("three of the 30", application_text)
+        self.assertIn("support for decoding 24/32-bit storage is not exercised", application_text)
+        app = read_csv(ROOT / "experiments/results_application_a100/application_performance.csv")
+        self.assertEqual(len(app), 3600)
+        self.assertTrue(all(r["validation"] == "arithmetic_pass" for r in app))
+        for error, allowance, printed in (("arithmetic_error", "arithmetic_allowance", .0347),
+                                          ("representation_error", "representation_bound", .1382)):
+            ratio = max(float(r[error]) / float(r[allowance]) for r in app if float(r[allowance]) > 0)
+            self.assertLessEqual(ratio, printed)
+            self.assertLess(printed - ratio, 1e-4)
+            self.assertIn(f"${printed}$", application_text)
 
     def test_document_split_and_bidirectional_references(self):
         self.assertEqual(len(re.findall(r"\\begin\{figure\}", self.main)), 5)
         self.assertEqual(len(re.findall(r"\\begin\{table\}", self.main)), 1)
         self.assertIn(r"\myexternaldocument{main}", self.supp)
-        labels = re.findall(r"\\label\{([^}]+)\}", self.main + self.supp)
-        self.assertEqual(len(labels), len(set(labels)))
         # Ignore commented source before checking the active references.
         text = re.sub(r"\\begin\{comment\}.*?\\end\{comment\}", "", self.main + self.supp, flags=re.S)
         text = re.sub(r"(?<!\\)%[^\n]*", "", text)
+        labels = re.findall(r"\\label\{([^}]+)\}", text)
+        self.assertEqual(len(labels), len(set(labels)))
         for target in re.findall(r"\\(?:ref|eqref)\{([^}]+)\}", text):
             self.assertIn(target, labels)
         for path in re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", text):

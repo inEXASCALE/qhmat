@@ -195,6 +195,7 @@
     "qmat_exp/application.py": "94607e1d742b0971acc476a450de97d8396f14ac93555d73aae412f759605708",
     "qmat_exp/geometric_matrices.py": "10e004c834152c6c2aa395fe4eac2b2882a84daabb3b92e5b5db2905723b2df6",
     "qmat_exp/gpu_perf.py": "acd3778fc573a39e585a26a0d33416cbee296da9085c7567e562ee6e84df59ec",
+    "qmat_exp/granularity.py": "cda7ffe33b594fb65aae6b27498abb689521d51724a4e01084824dfca124435f",
     "qmat_exp/hmatrix.py": "1469553c283aecf4b30696d438059d83eecb95f3c1262a600b55372801dd51ae",
     "qmat_exp/io.py": "76ebc36006a67ccaaf48300e754f6c261a0bd0076e3c2341ba31e683526a1681",
     "qmat_exp/matrices.py": "b13dcb2baa133f797d95e9e82567154d8c1e70ba289a9e590322ec21c41ada16",

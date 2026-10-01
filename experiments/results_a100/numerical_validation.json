@@ -1,0 +1,196 @@
+{
+  "arithmetic_absolute_slack": 1e-14,
+  "arithmetic_checks": 48,
+  "config": {
+    "bit_set": [
+      4,
+      8,
+      12,
+      16
+    ],
+    "data_dir": "experiments/data_a100",
+    "figures_dir": "experiments/figures_a100",
+    "geometric_suites": {
+      "bem2d": {
+        "geometries": [
+          "circle",
+          "ellipse"
+        ],
+        "sizes": [
+          256,
+          512,
+          1024,
+          2048
+        ]
+      },
+      "bem3d": {
+        "geometries": [
+          "cube",
+          "cuboid"
+        ],
+        "subdivisions": [
+          4,
+          8,
+          16
+        ]
+      },
+      "leaf_size": 32,
+      "native_leaves_per_case": 2,
+      "point_kernels": {
+        "dimensions": [
+          2,
+          3
+        ],
+        "distributions": [
+          "uniform",
+          "clustered"
+        ],
+        "kernels": [
+          "inverse_distance",
+          "log_distance"
+        ],
+        "sizes": [
+          512,
+          1024,
+          2048
+        ]
+      }
+    },
+    "gpu": {
+      "bits": [
+        4,
+        8
+      ],
+      "enabled": true,
+      "m": 4096,
+      "n": 4096,
+      "native_budget_fraction": 0.002,
+      "native_modes": [
+        "uniform4",
+        "uniform8",
+        "uniform12",
+        "uniform16",
+        "mixed",
+        "adaptive"
+      ],
+      "native_shapes": [
+        [
+          128,
+          128
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          4096,
+          4096
+        ]
+      ],
+      "ranks": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "repeats": 100,
+      "warmup": 20
+    },
+    "hmatrix": {
+      "accumulator_unit_roundoff": 5.960464477539063e-08,
+      "admissibility_eta": 1.0,
+      "budget_policies": [
+        "block_relative",
+        "hybrid",
+        "global_relative"
+      ],
+      "budget_policy": "block_relative",
+      "gemm_reserve_fraction": 0.02,
+      "hybrid_gamma": 0.001,
+      "kernels": [
+        "laplace1d",
+        "gaussian1d",
+        "matern1d"
+      ],
+      "leaf_size": 32,
+      "max_rank": 64,
+      "rank_tol": 1e-06,
+      "sizes": [
+        512,
+        1024
+      ],
+      "storage_policy": "admissible_only"
+    },
+    "low_rank": {
+      "algebraic_power": 1.4,
+      "exponential_decay": 0.82,
+      "rank": 64,
+      "sizes": [
+        256,
+        512
+      ],
+      "spectra": [
+        "exponential",
+        "algebraic",
+        "flat"
+      ]
+    },
+    "plot_style": {
+      "axis_label_size": 12,
+      "figure_dpi": 200,
+      "formats": [
+        "pdf",
+        "png"
+      ],
+      "grid_alpha": 0.25,
+      "legend_column_spacing": 1.4,
+      "legend_font_size": 10,
+      "legend_gap_points": 14,
+      "legend_label_spacing": 0.6,
+      "legend_max_columns": 4,
+      "legend_side_padding_points": 12,
+      "line_width": 2.0,
+      "major_tick_length": 4.0,
+      "major_tick_width": 0.8,
+      "marker_size": 6.0,
+      "minor_tick_length": 2.0,
+      "minor_tick_width": 0.6,
+      "tick_label_size": 10,
+      "title_font_size": 12
+    },
+    "results_dir": "experiments/results_a100",
+    "seed": 7,
+    "tolerances": [
+      0.002,
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ]
+  },
+  "hmatrix_absolute_slack": 1e-12,
+  "hmatrix_checks": 792,
+  "infeasible_hmatrix_configurations": 0,
+  "local_checks": 252,
+  "numpy": "2.4.6",
+  "python": "3.12.11",
+  "reference": "FP64 numerical reference; not interval arithmetic",
+  "source_sha256": {
+    "qmat_exp/__init__.py": "9f196492212e20087cf914bccf49ff48cefba2b04c9b6dd137d3a91c4148a62a",
+    "qmat_exp/allocator_study.py": "e3385738b50ddece337a5689d3d763f9f76e13ed733b414d5da30b81a089ea35",
+    "qmat_exp/application.py": "94607e1d742b0971acc476a450de97d8396f14ac93555d73aae412f759605708",
+    "qmat_exp/geometric_matrices.py": "10e004c834152c6c2aa395fe4eac2b2882a84daabb3b92e5b5db2905723b2df6",
+    "qmat_exp/gpu_perf.py": "acd3778fc573a39e585a26a0d33416cbee296da9085c7567e562ee6e84df59ec",
+    "qmat_exp/granularity.py": "cda7ffe33b594fb65aae6b27498abb689521d51724a4e01084824dfca124435f",
+    "qmat_exp/hmatrix.py": "1469553c283aecf4b30696d438059d83eecb95f3c1262a600b55372801dd51ae",
+    "qmat_exp/io.py": "76ebc36006a67ccaaf48300e754f6c261a0bd0076e3c2341ba31e683526a1681",
+    "qmat_exp/matrices.py": "b13dcb2baa133f797d95e9e82567154d8c1e70ba289a9e590322ec21c41ada16",
+    "qmat_exp/native_data.py": "aee5f7a099d7d9c6103be3b2ee624f5f08dd84de64b3f1c8c87ec419054779e3",
+    "qmat_exp/quantization.py": "101716756749d11d1fde9d7549a1233168ddc8be6a3fa6bd45d7a4b71ad99ce9",
+    "qmat_exp/spatial.py": "5b7339ba4075942ddd83387c0cc99b5cf54e87052bad7490a32cb19526c4b842",
+    "qmat_exp/storage.py": "f4c4d7de886a358035e685af5c164587f6d2b886d3252b2aa5a5fa2857a8ccd0",
+    "run_experiments.py": "414340b9c1546ccadf585c401d1889e25d562deac83a32caf2799cd854176d12"
+  },
+  "violations": 0
+}

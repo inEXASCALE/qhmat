@@ -6,6 +6,9 @@ The experiment harness is split into three reproducible stages.
 2. Run numerical and GPU experiments.
 3. Plot figures from saved CSV files.
 
+For the separate per-tensor/per-channel/adaptive storage comparison on
+selected prepared matrices, see [QUANTIZATION_GRANULARITY.md](QUANTIZATION_GRANULARITY.md).
+
 The current storage policy keeps **only diagonal leaf blocks dense**. Every
 non-diagonal leaf, including geometrically inadmissible near-field blocks, is
 represented by quantized factors. The geometric partition is unchanged.

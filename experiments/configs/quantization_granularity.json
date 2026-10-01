@@ -1,0 +1,17 @@
+{
+  "extends": "offdiagonal_a100.json",
+  "results_dir": "experiments/results_quantization_granularity",
+  "figures_dir": "experiments/figures_quantization_granularity",
+  "granularity": {
+    "budget_policy": "block_relative",
+    "scale_bits": 64,
+    "cases": [
+      {"case_id": "bem2d_log_circle_n512", "label": "Circle BEM", "panel": "small"},
+      {"case_id": "kernel_inverse_distance_2d_uniform_n512", "label": "2D $1/r$ kernel", "panel": "small"},
+      {"case_id": "kernel_log_distance_3d_uniform_n512", "label": "3D $\\log r$ kernel", "panel": "small"},
+      {"case_id": "bem2d_log_circle_n2048", "label": "Circle BEM", "panel": "large"},
+      {"case_id": "kernel_inverse_distance_2d_uniform_n2048", "label": "2D $1/r$ kernel", "panel": "large"},
+      {"case_id": "kernel_log_distance_3d_uniform_n2048", "label": "3D $\\log r$ kernel", "panel": "large"}
+    ]
+  }
+}

@@ -180,6 +180,9 @@ class ArchivedAllocatorEvidenceTests(unittest.TestCase):
                 for ax in fig.axes:
                     self.assertLess(legend.y1, ax.get_tightbbox(renderer).y0)
                     self.assertTrue(np.all(np.isfinite(ax.get_ylim())))
+                    label = ax.yaxis.label.get_window_extent(renderer)
+                    self.assertGreaterEqual(label.y0, fig.bbox.y0)
+                    self.assertLessEqual(label.y1, fig.bbox.y1)
                 plt.close(fig)
 
 

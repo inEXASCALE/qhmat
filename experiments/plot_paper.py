@@ -49,6 +49,11 @@ def tolerance_axis(ax, cfg):
     ax.set_xlabel("relative tolerance")
 
 
+def panel_title_size(cfg):
+    style = cfg["plot_style"]
+    return style.get("subplot_title_font_size", max(style["title_font_size"] - 2, 1))
+
+
 def plot_allocator(cfg, plt, directory, n=256):
     rows = read_csv(resolve_path(cfg["results_dir"]) / "local_certificate.csv")
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.8), sharey=True)
@@ -58,7 +63,7 @@ def plot_allocator(cfg, plt, directory, n=256):
         for index, (method, label) in enumerate(methods):
             values = allocator_series(rows, f"lowrank_n{n}_r64_{spectrum}", method, cfg["tolerances"])
             ax.semilogx(cfg["tolerances"], values, label=label, **line_style(cfg, index))
-        ax.set_title(spectrum.capitalize())
+        ax.set_title(spectrum.capitalize(), fontsize=panel_title_size(cfg))
         ax.set_ylim(0.4, 1.05)
         ax.set_yticks([0.5, 0.75, 1.0])
         tolerance_axis(ax, cfg)

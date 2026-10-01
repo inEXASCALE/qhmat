@@ -35,7 +35,7 @@ def plot_case(cfg, plt, directory, rows, case, policy):
     def values(fn):
         return [fn(r) if r["feasible"] == "1" else float("nan") for r in items]
     fig, axes = plt.subplots(1, 3, figsize=(11.2, 3.3))
-    for index, field, label in ((0, "global_actual_error", "Measured error"), (1, "global_cert", "Certificate")):
+    for index, field, label in ((0, "global_actual_error", "Measured error"), (1, "global_cert", "Error bound")):
         axes[0].loglog(xs, values(lambda r: float(r[field]) or float("nan")), label=label, **line_style(cfg, index))
     axes[0].set_title("Reconstruction")
     axes[0].set_ylabel("max-norm error")
@@ -73,7 +73,12 @@ def main():
     for case, policy in sorted({(r["case_id"], r["budget_policy"]) for r in rows}):
         fig = plot_case(cfg, plt, directory, rows, case, policy)
         plt.close(fig)
-    leaves = read_csv(results / "hmatrix_leaves.csv")
+    leaves_path = results / "hmatrix_leaves.csv"
+    if not leaves_path.is_file():
+        print(f"Rank diagnostics not regenerated: missing {leaves_path}; existing CSV preserved.")
+        print(f"Figures: {directory}")
+        return
+    leaves = read_csv(leaves_path)
     ranks, groups = [], defaultdict(list)
     for row in leaves:
         groups[(row["case_id"], row["budget_policy"], row["tol"], row["block_kind"])].append(row)

@@ -1,0 +1,259 @@
+{
+  "config": {
+    "bit_set": [
+      4,
+      8,
+      12,
+      16
+    ],
+    "data_dir": "experiments/data_offdiagonal_a100",
+    "figures_dir": "experiments/figures_quantization_granularity",
+    "geometric_suites": {
+      "bem2d": {
+        "geometries": [
+          "circle",
+          "ellipse"
+        ],
+        "sizes": [
+          256,
+          512,
+          1024,
+          2048
+        ]
+      },
+      "bem3d": {
+        "geometries": [
+          "cube",
+          "cuboid"
+        ],
+        "subdivisions": [
+          4,
+          8,
+          16
+        ]
+      },
+      "leaf_size": 32,
+      "native_leaves_per_case": 2,
+      "point_kernels": {
+        "dimensions": [
+          2,
+          3
+        ],
+        "distributions": [
+          "uniform",
+          "clustered"
+        ],
+        "kernels": [
+          "inverse_distance",
+          "log_distance"
+        ],
+        "sizes": [
+          512,
+          1024,
+          2048
+        ]
+      }
+    },
+    "gpu": {
+      "bits": [
+        4,
+        8
+      ],
+      "enabled": false,
+      "m": 4096,
+      "n": 4096,
+      "native_budget_fraction": 0.002,
+      "native_modes": [
+        "uniform4",
+        "uniform8",
+        "uniform12",
+        "uniform16",
+        "mixed",
+        "adaptive"
+      ],
+      "native_shapes": [
+        [
+          128,
+          128
+        ],
+        [
+          512,
+          512
+        ],
+        [
+          4096,
+          4096
+        ]
+      ],
+      "ranks": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "repeats": 100,
+      "warmup": 20
+    },
+    "granularity": {
+      "budget_policy": "block_relative",
+      "cases": [
+        {
+          "case_id": "bem2d_log_circle_n512",
+          "label": "Circle BEM",
+          "panel": "small"
+        },
+        {
+          "case_id": "kernel_inverse_distance_2d_uniform_n512",
+          "label": "2D $1/r$ kernel",
+          "panel": "small"
+        },
+        {
+          "case_id": "kernel_log_distance_3d_uniform_n512",
+          "label": "3D $\\log r$ kernel",
+          "panel": "small"
+        },
+        {
+          "case_id": "bem2d_log_circle_n2048",
+          "label": "Circle BEM",
+          "panel": "large"
+        },
+        {
+          "case_id": "kernel_inverse_distance_2d_uniform_n2048",
+          "label": "2D $1/r$ kernel",
+          "panel": "large"
+        },
+        {
+          "case_id": "kernel_log_distance_3d_uniform_n2048",
+          "label": "3D $\\log r$ kernel",
+          "panel": "large"
+        }
+      ],
+      "scale_bits": 64
+    },
+    "hmatrix": {
+      "accumulator_unit_roundoff": 1.1102230246251565e-16,
+      "admissibility_eta": 1.0,
+      "bit_set": [
+        4,
+        8,
+        12,
+        16,
+        24,
+        32
+      ],
+      "budget_policies": [
+        "block_relative",
+        "hybrid",
+        "global_relative"
+      ],
+      "budget_policy": "block_relative",
+      "gemm_reserve_fraction": 0.02,
+      "hybrid_gamma": 0.001,
+      "kernels": [
+        "laplace1d",
+        "gaussian1d",
+        "matern1d"
+      ],
+      "leaf_size": 32,
+      "max_rank": 0,
+      "rank_tol": 0.1,
+      "sizes": [
+        512,
+        1024
+      ],
+      "storage_policy": "diagonal_only",
+      "truncation_budget_fraction": 0.25
+    },
+    "low_rank": {
+      "algebraic_power": 1.4,
+      "exponential_decay": 0.82,
+      "rank": 64,
+      "sizes": [
+        256,
+        512
+      ],
+      "spectra": [
+        "exponential",
+        "algebraic",
+        "flat"
+      ]
+    },
+    "plot_style": {
+      "axis_label_size": 12,
+      "figure_dpi": 200,
+      "formats": [
+        "pdf",
+        "png"
+      ],
+      "grid_alpha": 0.25,
+      "legend_column_spacing": 1.4,
+      "legend_font_size": 10,
+      "legend_gap_points": 14,
+      "legend_label_spacing": 0.6,
+      "legend_max_columns": 4,
+      "legend_side_padding_points": 12,
+      "line_width": 2.0,
+      "major_tick_length": 4.0,
+      "major_tick_width": 0.8,
+      "marker_size": 6.0,
+      "minor_tick_length": 2.0,
+      "minor_tick_width": 0.6,
+      "tick_label_size": 10,
+      "title_font_size": 12
+    },
+    "results_dir": "experiments/results_quantization_granularity",
+    "seed": 7,
+    "tolerances": [
+      1e-06,
+      1e-05,
+      0.0001,
+      0.001,
+      0.002,
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ]
+  },
+  "feasible_rows": 180,
+  "git_revision": "d8c71502dc9f926274a3bacb1959e4725f2eb91d",
+  "input_sha256": {
+    "bem2d_log_circle_n2048": {
+      "leaves_path": "99ed28042e63d782e7cae8e41d99bc326a64211441b6ce937cd20deed9dba937",
+      "path": "35dc9fa7e978000313fa975f07473bbef15bf25d36b54baacc029fcba6237e01"
+    },
+    "bem2d_log_circle_n512": {
+      "leaves_path": "775d58acd6fca90e2a84cb0cd4c3460ec7aea090000b71b12d6a181b8c66e7c2",
+      "path": "696df5498a6d497d9ac49de3f86607814de6a338ac2e5283e932235bf4999ae2"
+    },
+    "kernel_inverse_distance_2d_uniform_n2048": {
+      "leaves_path": "987c20baf6f07981986e63d7669bca69012169cbb227eea84537c861dd6598ef",
+      "path": "9f3f7a268dbbd9cc56358a77e7b0a9478e00fdee1e2273bdd56a89baec6d4544"
+    },
+    "kernel_inverse_distance_2d_uniform_n512": {
+      "leaves_path": "2f37a71e7b7b1eab987ebcc5bf7ef8f05df5cd53955ddc2439535443c069701d",
+      "path": "d3bc743b30c02637b6994808ec4b99b33a6730e5eb5131c480ea147dac661b79"
+    },
+    "kernel_log_distance_3d_uniform_n2048": {
+      "leaves_path": "bba051593aa732ec44faf991b17481ed82dec0d9b958f86a3ee47eaa2b66242b",
+      "path": "1a2d08ea936a8881c550d25faa70bbc988a5d9da9592d3d92ee541cd8d20222b"
+    },
+    "kernel_log_distance_3d_uniform_n512": {
+      "leaves_path": "c2212fee6779583b5f108efb2664def6b77b276b984c25c1f15d7b76487616f4",
+      "path": "b23a1cd1117d465b8c3a4c99198dfbd0e5d10058563378c86ac0007f0afe720e"
+    }
+  },
+  "manifest_sha256": "cc6766a2a410cc3d3c890c0ddd3c92dec422d6102560ea2089dbbe043ef85e2a",
+  "numpy": "2.4.6",
+  "python": "3.12.11",
+  "result_sha256": "8b72140d4d4a0aa106b46f0be5abd4d0fa22a106999932283b63843e8d469306",
+  "rows": 180,
+  "scope": "FP64 factor-product emulation; quantization and truncation bounds only; no kernel timing",
+  "source_sha256": {
+    "experiments/qmat_exp/granularity.py": "cda7ffe33b594fb65aae6b27498abb689521d51724a4e01084824dfca124435f",
+    "experiments/qmat_exp/hmatrix.py": "1469553c283aecf4b30696d438059d83eecb95f3c1262a600b55372801dd51ae",
+    "experiments/qmat_exp/quantization.py": "101716756749d11d1fde9d7549a1233168ddc8be6a3fa6bd45d7a4b71ad99ce9",
+    "experiments/run_quantization_granularity.py": "20a0c5092765fee0d685a429b74ca98ddad1fac79d1424f7a41a544e2ee1fb3e"
+  }
+}

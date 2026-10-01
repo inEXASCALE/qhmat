@@ -57,7 +57,7 @@ def menu_effects(cfg, plt, directory, summary, pairs):
                 fontsize=cfg["plot_style"]["tick_label_size"])
     ax.set_xticks(range(len(menus)), [rf"$B_{i}$" for i in range(len(menus))])
     ax.set_ylim(0, 1.15 * max(g["cases"] for g in groups))
-    ax.set_ylabel("certificate-feasible cases")
+    ax.set_ylabel("feasible cases")
     ax.set_xlabel("available precision menu")
     ax.set_title("(b) Feasibility")
     for ax in axes:
@@ -78,7 +78,7 @@ def spectrum_gaps(cfg, plt, directory, summary):
         ax.axhline(1, color="0.3", linestyle=":", linewidth=1)
         ax.set_xticks(range(len(menus)), [rf"$B_{i}$" for i in range(len(menus))])
         ax.set_xlabel("available precision menu")
-        ax.set_ylabel(f"{stat} greedy / DP payload")
+        ax.set_ylabel(stat + r" $M_{\mathrm{G}}/M_*$")
         apply_axis_style(ax, cfg)
     savefig(fig, directory, "supp_menu_spectra", cfg["plot_style"]["formats"], cfg)
     return fig
@@ -145,7 +145,7 @@ def scaling_figure(cfg, plt, directory):
             ax.set_ylim(0, max(max(all_values) * 1.5, 1e-16))
         apply_axis_style(ax, cfg)
     axes[0].set_ylabel("relative change in\nquantized product")
-    axes[1].set_ylabel("relative reconstruction error")
+    axes[1].set_ylabel("relative reconstruction\nerror")
     savefig(fig, directory, "supp_scaling_control", cfg["plot_style"]["formats"], cfg)
     return fig
 

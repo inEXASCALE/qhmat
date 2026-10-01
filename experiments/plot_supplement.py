@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 
-from plot_paper import plot_allocator, plot_native, tolerance_axis, unique_rows
+from plot_paper import panel_title_size, plot_allocator, plot_native, tolerance_axis, unique_rows
 from plot_results import LINE_PALETTE, apply_axis_style, line_style, load_matplotlib, savefig
 from qmat_exp.io import ensure_dir, load_config, read_csv, resolve_path
 
@@ -31,11 +31,11 @@ def plot_local_bounds(cfg, plt, directory, n):
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.8), sharey=True)
     for ax, (spectrum, items) in zip(axes, local_cases(cfg, n)):
         for index, (field, label) in enumerate((("actual_error", "Measured error"),
-                ("cert_sv", "SV certificate"), ("cert_geom", "Geometry certificate"))):
+                ("cert_sv", "SV bound"), ("cert_geom", "Geometry bound"))):
             ax.loglog([float(r["tol"]) for r in items],
                       [float(r[field]) / float(r["budget"]) for r in items],
                       label=label, **line_style(cfg, index))
-        ax.set_title(spectrum.capitalize())
+        ax.set_title(spectrum.capitalize(), fontsize=panel_title_size(cfg))
         tolerance_axis(ax, cfg)
     axes[0].set_ylabel("error or bound / budget")
     savefig(fig, directory, f"supp_local_bounds_n{n}", cfg["plot_style"]["formats"], cfg)
@@ -50,7 +50,7 @@ def plot_precision_maps(cfg, plt, directory):
             bits = json.loads(row["bits_by_index"])
             ax.step(range(1, len(bits) + 1), bits, where="mid",
                     label=f"tol={row['tol']}", **line_style(cfg, index))
-        ax.set_title(spectrum.capitalize())
+        ax.set_title(spectrum.capitalize(), fontsize=panel_title_size(cfg))
         ax.set_xlabel("singular-value index")
         ax.set_xticks([1, 16, 32, 48, 64])
         ax.set_yticks(cfg["bit_set"])

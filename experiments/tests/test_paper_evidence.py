@@ -87,7 +87,10 @@ class PaperFigureTests(unittest.TestCase):
     def test_native_selection_and_missing_ranks(self):
         items = native_series(self.native, 128, "packed_columnwise_channels", "adaptive")
         self.assertEqual([int(r["rank"]) for r in items], [32, 64, 128])
-        self.assertAlmostEqual(float(items[0]["speedup_vs_fp32"]), .27027027, places=6)
+        references = native_series(self.native, 128, "fp32_cublas", "adaptive")
+        for row, reference in zip(items, references):
+            self.assertAlmostEqual(float(row["speedup_vs_fp32"]),
+                                   float(reference["median_ms"]) / float(row["median_ms"]), places=6)
         with self.assertRaises(ValueError):
             native_series(items[:-1], 128, "packed_columnwise_channels", "adaptive")
         with self.assertRaises(ValueError):
