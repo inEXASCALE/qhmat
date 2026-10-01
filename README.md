@@ -81,14 +81,5 @@ To reuse a constructed matrix in another process, call `h.save("matrix.qhmat")` 
 
 The compiled package is built with scikit-build-core and pybind11. The `experiments/` directory contains the paper's independent research scripts and is excluded from package distributions. CI builds and tests the CPU package; CUDA builds must also be checked on an NVIDIA runner.
 
-The release workflow builds CPU wheels and publishes through PyPI Trusted Publishing. Before its first use, configure `inEXASCALE/qhmat`, workflow `release.yml`, and environment `pypi` as a Trusted Publisher in PyPI, then protect that GitHub environment and the release tag. CUDA wheels are not published by that workflow.
-
-Before a PyPI release, build and inspect artifacts with:
-
-```bash
-python -m pip install build twine
-python -m build
-python -m twine check dist/*
-```
 
 The project is licensed under [MPL-2.0](LICENSE). Source and issue tracking are at [inEXASCALE/qhmat](https://github.com/inEXASCALE/qhmat).
