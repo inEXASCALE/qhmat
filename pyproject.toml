@@ -27,7 +27,7 @@ dependencies = ["numpy>=1.23"]
 
 [project.optional-dependencies]
 test = ["pytest>=7"]
-docs = ["sphinx>=7,<10", "sphinx-rtd-theme>=2,<4"]
+docs = ["mkdocs-material>=9.5,<10", "mkdocstrings[python]>=0.26,<1"]
 
 [project.urls]
 Homepage = "https://github.com/inEXASCALE/qhmat"

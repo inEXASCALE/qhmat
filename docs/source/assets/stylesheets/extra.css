@@ -1,0 +1,46 @@
+:root {
+  --md-primary-fg-color: #184b52;
+  --md-primary-fg-color--light: #2a6971;
+  --md-primary-fg-color--dark: #10383e;
+  --md-accent-fg-color: #b05b2d;
+}
+
+.md-grid {
+  max-width: 84rem;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  color: #183f46;
+}
+
+.md-typeset h1 {
+  font-weight: 720;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 6px;
+}
+
+.md-typeset .highlight pre {
+  border-radius: 6px;
+}
+
+.md-typeset table:not([class]) th {
+  color: #173f46;
+  background: #eaf2f1;
+}
+
+.md-typeset .grid.cards > ul > li {
+  border-radius: 6px;
+}
+
+.md-typeset .qh-kicker {
+  color: #a8512b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

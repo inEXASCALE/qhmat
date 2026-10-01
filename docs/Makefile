@@ -1,11 +1,9 @@
-SPHINXBUILD ?= sphinx-build
-SOURCEDIR = .
-BUILDDIR = _build
+PYTHON ?= python
 
 .PHONY: html clean
 
 html:
-	$(SPHINXBUILD) -b html -n -W --keep-going $(SOURCEDIR) $(BUILDDIR)/html
+	$(MAKE) -C .. html PYTHON=$(PYTHON)
 
 clean:
-	rm -rf $(BUILDDIR)
+	$(MAKE) -C .. clean-docs

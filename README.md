@@ -4,11 +4,11 @@
 [![PyPI: pending](https://img.shields.io/badge/PyPI-pending-566573)](https://pypi.org/)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB)](pyproject.toml)
 [![License: MPL-2.0](https://img.shields.io/badge/license-MPL--2.0-2E6B5D)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-Read%20the%20Docs-08766A)](docs/index.rst)
+[![Documentation](https://img.shields.io/badge/docs-MkDocs%20Material-08766A)](docs/source/index.md)
 
 Adaptive integer-quantized hierarchical matrices with a C++ core, Python bindings, and an optional CUDA backend.
 
-See the [documentation](docs/index.rst) for installation, a quickstart,
+See the [documentation](docs/source/index.md) for installation, a quickstart,
 kernel/BEM/integral-operator examples, and the full API reference. Build it
 locally with `python -m pip install -e '.[docs]'` followed by `make html`;
 open `docs/_build/html/index.html`.

@@ -1,7 +1,9 @@
+PYTHON ?= python
+
 .PHONY: html clean-docs
 
 html:
-	$(MAKE) -C docs html
+	$(PYTHON) -m mkdocs build --strict
 
 clean-docs:
-	$(MAKE) -C docs clean
+	rm -rf docs/_build

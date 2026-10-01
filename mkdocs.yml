@@ -1,0 +1,87 @@
+site_name: qhmat
+site_description: Adaptive integer-quantized hierarchical matrices
+repo_url: https://github.com/inEXASCALE/qhmat
+repo_name: inEXASCALE/qhmat
+edit_uri: edit/main/docs/source/
+docs_dir: docs/source
+site_dir: docs/_build/html
+use_directory_urls: false
+
+theme:
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    scheme: default
+    primary: custom
+    accent: custom
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.tracking
+    - navigation.top
+    - toc.follow
+    - content.code.copy
+    - content.tabs.link
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [python]
+          options:
+            docstring_style: auto
+            show_source: false
+            show_root_heading: true
+            members_order: source
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.snippets:
+      base_path: .
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
+
+extra_css:
+  - assets/stylesheets/extra.css
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Overview: index.md
+  - Start:
+      - Installation: installation.md
+      - Quickstart: quickstart.md
+      - How it works: concepts.md
+      - Storage and error guide: storage.md
+  - Applications:
+      - Kernel matrices: kernel.md
+      - Boundary elements: bem.md
+      - Integral operators: integral.md
+  - Reference:
+      - Python API: api.md
+  - Project:
+      - License: license.md
+      - Contributing: contributing.md
