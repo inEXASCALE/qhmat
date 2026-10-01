@@ -1,0 +1,42 @@
+[build-system]
+requires = ["scikit-build-core>=0.11", "pybind11>=2.12"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "qhmat"
+version = "0.1.0"
+description = "Adaptive integer-quantized hierarchical matrices"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MPL-2.0"
+license-files = ["LICENSE"]
+authors = [{name = "Xinye Chen"}]
+keywords = ["hierarchical matrices", "quantization", "low rank", "numerical linear algebra"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: C++",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Mathematics",
+]
+dependencies = ["numpy>=1.23"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.urls]
+Homepage = "https://github.com/inEXASCALE/qhmat"
+Repository = "https://github.com/inEXASCALE/qhmat"
+Issues = "https://github.com/inEXASCALE/qhmat/issues"
+
+[tool.scikit-build]
+minimum-version = "0.11"
+wheel.packages = ["python/qhmat"]
+sdist.exclude = ["experiments/**", "matlab/**", "supplement/**", ".github/**", ".vscode/**"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

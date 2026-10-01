@@ -1,0 +1,24 @@
+"""Adaptive integer-quantized hierarchical matrices."""
+
+from ._core import Allocation, BlockInfo, Partition, Rectangle, coefficient
+from ._core import allocate as allocate_bits
+from ._core import spatial_partition
+from ._core import NativeHMatrix
+from ._core import cuda_built
+from .matrix import HMatrix, InfeasibleError
+
+__version__ = "0.1.0"
+
+__all__ = [
+    "Allocation",
+    "BlockInfo",
+    "HMatrix",
+    "InfeasibleError",
+    "NativeHMatrix",
+    "Partition",
+    "Rectangle",
+    "allocate_bits",
+    "coefficient",
+    "cuda_built",
+    "spatial_partition",
+]
