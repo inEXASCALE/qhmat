@@ -7,14 +7,14 @@
 
 Adaptive integer-quantized hierarchical matrices with a C++ core, Python bindings, and an optional CUDA backend.
 
-`qhmat` stores diagonal blocks in FP64 and **all non-diagonal blocks**, including inadmissible near-field blocks, as quantized low-rank factors. Each retained singular component receives its own signed-integer bit width and two balanced-factor scales. The reserve-greedy allocator chooses widths subject to the singular-value error surrogate
+In the proposed diagonal-only-dense representation, `qhmat` stores diagonal blocks densely in FP64 and every non-diagonal block, whether admissible or inadmissible, as quantized SVD factors. This factorized format does not imply that every near-field block has low numerical rank or uses less storage than a dense block. Each retained singular component receives its own signed-integer bit width and two balanced-factor scales. The reserve-greedy allocator chooses widths subject to the singular-value error surrogate
 
 $$
   \sum_j \sigma_j\left(\frac{1}{2^{b_j-1}-1}
   +\frac{1}{4(2^{b_j-1}-1)^2}\right) \leq B^{\mathrm q}.
 $$
 
-The package uses a strict construction policy: an infeasible off-diagonal block raises an error; it is never silently stored as dense FP64.
+The package uses a strict construction policy: an infeasible off-diagonal block raises an error; it is never silently stored as dense FP64. The archived admissible-only comparison and GPU application experiments in `experiments/` use a different storage policy.
 
 ## Install
 

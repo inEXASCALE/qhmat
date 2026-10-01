@@ -9,9 +9,11 @@ The experiment harness is split into three reproducible stages.
 For the separate per-tensor/per-channel/adaptive storage comparison on
 selected prepared matrices, see [QUANTIZATION_GRANULARITY.md](QUANTIZATION_GRANULARITY.md).
 
-The current storage policy keeps **only diagonal leaf blocks dense**. Every
-non-diagonal leaf, including geometrically inadmissible near-field blocks, is
-represented by quantized factors. The geometric partition is unchanged.
+The revised diagonal-only-dense experiment keeps only diagonal blocks dense
+in FP64. Every non-diagonal block, including geometrically inadmissible
+near-field blocks, is represented by quantized factors; these blocks need not
+have low numerical rank. The geometric partition is unchanged. The archived
+admissible-only experiments below use a different storage policy.
 
 ## Revised diagonal-only experiment (run this)
 
