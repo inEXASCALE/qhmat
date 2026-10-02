@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = "MPL-2.0"
 license-files = ["LICENSE"]
-authors = [{name = "Xinye Chen"}]
+authors = [{name = "Erin Carson, Xinye Chen, Ritesh Khan"}]
 keywords = ["hierarchical matrices", "quantization", "low rank", "numerical linear algebra"]
 classifiers = [
   "Development Status :: 3 - Alpha",
